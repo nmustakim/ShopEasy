@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "308761852516",
+    "project_id": "shopeasy-4329b",
+    "storage_bucket": "shopeasy-4329b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:308761852516:android:7e6f03d35417d4d2b5fd71",
+        "android_client_info": {
+          "package_name": "com.nmustakim.shopeasy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "308761852516-r7j7i93f0mn6hthokra2mlsugj7dcb3u.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA68lrQI3HK0MIEI7NP5MjHh4p4hdZXc18"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "308761852516-r7j7i93f0mn6hthokra2mlsugj7dcb3u.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
