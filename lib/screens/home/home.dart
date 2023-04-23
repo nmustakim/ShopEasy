@@ -1,17 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shopeasy/constants.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:shopeasy/repositories/product_repository.dart';
 import 'package:shopeasy/screens/dairy/dairy.dart';
-import 'package:shopeasy/screens/item_details/item_details.dart';
+import 'package:shopeasy/screens/fruits/fruits.dart';
+import 'package:shopeasy/screens/meat/meat.dart';
 import 'package:shopeasy/screens/vegetables/vegetables.dart';
-import '../../global_widgets/bottom_appbar.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../global_widgets/category_item_card.dart';
-import '../../models/fruit.dart';
-import '../fruits/fruits.dart';
-import '../item_card/item_card.dart';
-import '../meat/meat.dart';
+import '../../models/product.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
@@ -24,21 +21,20 @@ class _HomeState extends State<Home> {
   ProductRepository? _productRepository;
   List<Product>? productsList;
   List<Product>? productsListContainer;
-  List<Product>? popularList;
-  List<Product>? popularListContainer;
+
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   @override
   void initState() {
-_productRepository = ProductRepository();
-productsList = [];
-productsListContainer = [];
-popularList = [];
-popularListContainer = [];
-fetchFruitsList();
-fetchPopularList();
+    _productRepository = ProductRepository();
+    productsList = [];
+    productsListContainer = [];
+
+    fetchFruitsList();
+
     super.initState();
   }
-  void fetchFruitsList()async {
+
+  void fetchFruitsList() async {
     try {
       productsListContainer = await _productRepository!.getAllItems();
       if (productsListContainer!.isNotEmpty) {
@@ -46,89 +42,116 @@ fetchPopularList();
           productsList = productsListContainer;
         });
       } else {}
-    }
-    catch (error) {
+    } catch (error) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(error.toString())));
     }
   }
-  void fetchPopularList()async {
-    try {
-      popularListContainer = await _productRepository!.getAllPopular();
-      if (popularListContainer!.isNotEmpty) {
-        setState(() {
-          popularList = popularListContainer;
-        });
-      } else {}
-    }
-    catch (error) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(error.toString())));
-    }
-  }
+
   @override
   Widget build(BuildContext context) {
-
-
     return SafeArea(
-      child: Scaffold(
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
+        child: Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        title: Text(
+          "Products",
+          style: titleTextStyle1,
+        ),
+        centerTitle: true,
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+        Stack(
+        children: [
+        Container(
+        height: 120,
+        decoration: BoxDecoration(
+            gradient: const LinearGradient(
+                colors: [Color(0XFFE2E9FF), Color(0XFFFFEAEA)]),
+            borderRadius: BorderRadius.circular(16)),
+      ),
+          Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-               Text("Popular",style: titleTextStyle4,),
-                SizedBox(height: 10,),
-            CarouselSlider.builder(
-                      itemBuilder: (BuildContext context, int index, int realIndex) {
-                        Product pl = popularList![index];
-                         return InkWell(
-                           onTap: (){
-                             Navigator.push(context, MaterialPageRoute(builder: (context)=>ItemDetails(name: pl.name,price: pl.price,image:pl.image)));
-                           },
-                             child: ItemCard(image:pl.image,name:pl.name,price:pl.price));
-
-                     }, itemCount: popularList!.length.compareTo(0), options:CarouselOptions(
-                       disableCenter: true,
-                    height: 115,
-                       enableInfiniteScroll: true,
-                       autoPlay: true,
-                     ),
-
-                     ),
-
-
-const SizedBox(height: 25,),
-                Text("Categories",style: titleTextStyle4,),
-               SizedBox(height: 20,),
-
-                   Expanded(
-                          child: GridView.builder(
-                              itemCount:productsList!.length,
-                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2), itemBuilder: (context, index) {
-                            Product data = productsList![index];
-                            return InkWell(
-                              onTap: (){
-                               const List <Widget> screens = [Fruits(),Vegetables(),Dairy(),Meat()];
-                               Navigator.push(context, MaterialPageRoute(builder: (context)=>screens[index]));
-
-                              },
-                              child: GridTile(
-                                  child: CategoryItemCard(image: data.image, name: data.name)),
-                            );
-                          }),
-                        ),
-
+                Text('Free shipping',
+                    style: TextStyle(
+                        fontSize: 25,
+                        fontWeight: FontWeight.w700,
+                        fontFamily: GoogleFonts.montserrat().fontFamily,
+                        color: Colors.red)),
                 const SizedBox(
-                  height: 40,
-                  child: BottomBar(
-                  ),
-                )
+                  height: 4,
+                ),
+                Row(
+                  children: [
+                    Text('When ordering',
+                        style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w700,
+                            fontFamily:
+                            GoogleFonts.montserrat().fontFamily,
+                            color: const Color(0XFF000000))),
+                    const Expanded(
+                      child: SizedBox(
+
+                      ),
+                    ),
+                    Container(
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(4),
+                          color: const Color(0XFFFFBB56)),
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 3, 8, 3),
+                        child: Text('From 50\$',
+                            style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                fontFamily:
+                                GoogleFonts.montserrat().fontFamily,
+                                color: const Color(0XFF000000))),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
+          ),
+          ]
         ),
+            const SizedBox(height: 25,),
+            Expanded(
+              child: GridView.builder(
+                  itemCount: productsList!.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2),
+                  itemBuilder: (context, index) {
+                    Product data = productsList![index];
+                    return InkWell(
+                      onTap: () {
+                        const List<Widget> screens = [Fruits(),Vegetables(),Dairies(),Meats()];
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => screens[index]));
+                      },
+                      child: GridTile(
+                          child: CategoryItemCard(
+                              image: data.image, name: data.name)),
+                    );
+                  }),
+            ),
+          ],
+
+      ),
+    )
         )
     );
   }

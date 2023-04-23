@@ -4,23 +4,67 @@ import '../screens/Profile/profile.dart';
 import '../screens/cart/cart.dart';
 import '../screens/home/home.dart';
 
+class BottomBar extends StatefulWidget {
 
-class BottomBar extends StatelessWidget {
-  const BottomBar({Key? key}) : super(key: key);
+
+  const BottomBar(
+      {super.key,});
 
   @override
-  Widget build(BuildContext context) {
-    return
-      BottomAppBar(
+  State<BottomBar> createState() => _BottomBarState();
+}
 
-        elevation: 10,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>const Home()));}, icon:const Icon(Icons.home_filled)),
-            IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=> Cart()));}, icon:const Icon(Icons.shopping_cart)),
-            IconButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>Profile()));}, icon:const Icon(Icons.person)),
-          ],
-        ),);
+class _BottomBarState extends State<BottomBar> {
+  @override
+  void initState() {
+    setState(() {
+
+    });
+    super.initState();
+  }
+  int _selectedIndex = 0;
+  late final List<Widget> _widgetOptions = <Widget>[
+    const Home(),
+Cart(),
+    Profile(),
+
+  ];
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
+  // final controller = Get.put(SettingsController());
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+        body: Center(
+          child: _widgetOptions.elementAt(_selectedIndex),
+        ),
+        bottomNavigationBar: Container(
+          decoration: const BoxDecoration(color:Colors.deepPurple,borderRadius: BorderRadius.only(topLeft: Radius.circular(24),topRight: Radius.circular(24))),
+
+          child: BottomNavigationBar(
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.shopping_cart),
+                label: 'Cart',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.person),
+                label: 'Profile',
+              ),
+            ],
+            currentIndex: _selectedIndex,
+            // selectedItemColor: ,
+            onTap: _onItemTapped,
+          ),
+        )
+    );
   }
 }

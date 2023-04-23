@@ -57,7 +57,7 @@ sendUserData()async{
       body: ReusableBodyPart(
         topMargin: 120,
         childWidget: Padding(
-          padding:  EdgeInsets.all(8),
+          padding:  const EdgeInsets.all(8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

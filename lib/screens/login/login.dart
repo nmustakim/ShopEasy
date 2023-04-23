@@ -4,6 +4,7 @@ import 'package:shopeasy/screens/forgot_password/forgot_password.dart';
 import 'package:shopeasy/screens/home/home.dart';
 import '../../constants.dart';
 import '../../global_widgets/bottomButton.dart';
+import '../../global_widgets/bottom_appbar.dart';
 import '../registration/parts/bottom_row.dart';
 import '../registration/parts/reusable_part.dart';
 import '../registration/registration.dart';
@@ -34,7 +35,7 @@ class _LoginState extends State<Login> {
           password: passwordController!.text);
       var authCredential = credential.user;
       if(authCredential!.uid.isNotEmpty){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const Home()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const BottomBar()));
       }
 
     } on FirebaseAuthException catch (e) {
