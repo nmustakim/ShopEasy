@@ -6,11 +6,11 @@ import 'package:shopeasy/constants.dart';
 class ItemCard extends StatelessWidget {
 
 
-String image,name;
-num price;
+final String image,name;
+final num price;
 
 
- ItemCard({super.key,required this.image,required this.name,required this.price});
+ const ItemCard({super.key,required this.image,required this.name,required this.price});
 
 
 

@@ -9,9 +9,7 @@ import 'package:flutter/material.dart';
     TextStyle bodyTextStyle1 = const TextStyle(fontSize: 20);
     TextStyle bodyTextStyle2 = const TextStyle(fontSize: 15);
     TextStyle bodyTextStyle3 = const TextStyle(fontSize: 12);
-    EdgeInsets defaultPadding1 = const EdgeInsets.all(8);
-    EdgeInsets defaultPadding2 = const EdgeInsets.all(12);
-    EdgeInsets defaultPadding3 = const EdgeInsets.all(20);
+
 
 
 

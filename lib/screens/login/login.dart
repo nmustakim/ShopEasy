@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shopeasy/reusable_parts/bottomButton.dart';
 import 'package:shopeasy/screens/forgot_password/forgot_password.dart';
 import 'package:shopeasy/screens/home/home.dart';
 import '../../constants.dart';
+import '../../global_widgets/bottomButton.dart';
 import '../registration/parts/bottom_row.dart';
 import '../registration/parts/reusable_part.dart';
 import '../registration/registration.dart';
@@ -34,7 +34,7 @@ class _LoginState extends State<Login> {
           password: passwordController!.text);
       var authCredential = credential.user;
       if(authCredential!.uid.isNotEmpty){
-        Navigator.push(context, MaterialPageRoute(builder: (context)=>const Home()));
+        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const Home()));
       }
 
     } on FirebaseAuthException catch (e) {
@@ -65,7 +65,7 @@ class _LoginState extends State<Login> {
     return ReusableBodyPart(
          topMargin: 120,
         childWidget: Padding(
-          padding:   defaultPadding3,
+          padding: EdgeInsets.all(8),
           child: Column(
 
             crossAxisAlignment: CrossAxisAlignment.start,

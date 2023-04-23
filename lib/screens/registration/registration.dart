@@ -1,9 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shopeasy/constants.dart';
-import 'package:shopeasy/reusable_parts/bottomButton.dart';
 import 'package:shopeasy/screens/terms_privacy_policies/terms_privacy.dart';
 import 'package:shopeasy/screens/user_details/user_details.dart';
+import '../../global_widgets/bottomButton.dart';
 import '../login/login.dart';
 import 'parts/bottom_row.dart';
 import 'parts/reusable_part.dart';
@@ -110,7 +110,7 @@ class _RegistrationState extends State<Registration> {
     return ReusableBodyPart(
       topMargin: 120,
       childWidget: Padding(
-        padding: defaultPadding3,
+        padding: EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,

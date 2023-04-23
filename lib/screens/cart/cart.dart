@@ -1,9 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shopeasy/reusable_parts/bottomButton.dart';
+
 
 import '../../constants.dart';
+import '../../global_widgets/bottomButton.dart';
 
 class Cart extends StatelessWidget {
 
@@ -32,15 +33,21 @@ class Cart extends StatelessWidget {
           stream: FirebaseFirestore.instance.collection("users-cart").doc(FirebaseAuth.instance.currentUser!.email).collection("items").snapshots(),
 
                     builder: (context,snapshot){
+                      if (!snapshot.hasData){
+                        return const Center(child: Text("No data. Loading"),);
+                      }
+                      else {
+                        return ListView.builder(
+                            itemCount: snapshot.data!.docs.length,
 
-                    return ListView.builder(
-                      itemCount: snapshot.data!.docs.length,
-
-                        itemBuilder: (context,index){
-                        DocumentSnapshot ds = snapshot.data!.docs[index];
-                      return Card(child: ListTile(trailing:Image.network(ds["image"]),title: Text(ds["name"],),subtitle: Text("${ds["price"]}\$"),));
-
-                    });
+                            itemBuilder: (context, index) {
+                              DocumentSnapshot ds = snapshot.data!.docs[index];
+                              return Card(child: ListTile(
+                                trailing: Image.network(ds["image"]),
+                                title: Text(ds["name"],),
+                                subtitle: Text("${ds["price"]}\$"),));
+                            });
+                      }
 
         }
         ),

@@ -1,9 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shopeasy/reusable_parts/bottomButton.dart';
 import 'package:shopeasy/screens/cart/cart.dart';
 import '../../constants.dart';
+import '../../global_widgets/bottomButton.dart';
 
 
 class ItemDetails extends StatefulWidget {
@@ -147,8 +147,7 @@ decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),),
                           Expanded(
                             child: BottomButton(buttonName: "Add to cart", onPressed: ()async{
                               await addToCart();
-                              Navigator.push(context, MaterialPageRoute(builder: (context)=> Cart(
-                              )));
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Item added successfully')));
                             }),
                           ),
                         ],

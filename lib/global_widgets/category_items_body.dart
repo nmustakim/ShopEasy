@@ -1,13 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:shopeasy/reusable_parts/bottom_appbar.dart';
 import '../screens/item_details/item_details.dart';
+import 'bottom_appbar.dart';
 import 'category_item_card.dart';
 
-class CategoryItemsBody extends StatelessWidget {
+class CategoryItemsBody extends StatefulWidget {
  final String title,collection;
 
  const CategoryItemsBody({super.key, required this.title, required this.collection});
+
+  @override
+  State<CategoryItemsBody> createState() => _CategoryItemsBodyState();
+}
+
+class _CategoryItemsBodyState extends State<CategoryItemsBody> {
+
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +33,7 @@ class CategoryItemsBody extends StatelessWidget {
             elevation: 0,
             centerTitle: true,
             title: Text(
-              title,
+              widget.title,
               style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
             ),
           ),
@@ -57,7 +64,7 @@ class CategoryItemsBody extends StatelessWidget {
                   Expanded(
                       child: StreamBuilder(
                           stream: FirebaseFirestore.instance
-                              .collection(collection)
+                              .collection(widget.collection)
                               .snapshots(),
                           builder: (context, snapshot) {
                             if (!snapshot.hasData) {

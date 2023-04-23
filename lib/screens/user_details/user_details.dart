@@ -1,11 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shopeasy/reusable_parts/bottomButton.dart';
 import 'package:shopeasy/screens/login/login.dart';
 import 'package:shopeasy/screens/registration/parts/reusable_part.dart';
 
 import '../../constants.dart';
+import '../../global_widgets/bottomButton.dart';
 
 class UserDetails extends StatefulWidget {
   const UserDetails({Key? key}) : super(key: key);
@@ -57,7 +57,7 @@ sendUserData()async{
       body: ReusableBodyPart(
         topMargin: 120,
         childWidget: Padding(
-          padding:  defaultPadding3,
+          padding:  EdgeInsets.all(8),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,

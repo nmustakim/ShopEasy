@@ -2,11 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shopeasy/my_profile.dart';
-import 'package:shopeasy/reusable_parts/bottomButton.dart';
-import 'package:shopeasy/reusable_parts/bottom_appbar.dart';
 import 'package:shopeasy/screens/Profile/profile_parts/profile_card.dart';
 import 'package:shopeasy/screens/login/login.dart';
 import '../../constants.dart';
+import '../../global_widgets/bottomButton.dart';
 
 class Profile extends StatelessWidget {
   Profile({Key? key}) : super(key: key);
@@ -49,44 +48,33 @@ class Profile extends StatelessWidget {
                   future: getUserdata(),
                   builder: (context, snapshot) {
 
-                    return Text(snapshot.data["name"],style: titleTextStyle1,);
-                  },
+    if (!snapshot.hasData){
+    return const Center(child: Text("No data. Loading...."),);
+    }
+    else {
+      return Text(snapshot.data["name"], style: titleTextStyle1,);
+    }},
                 ),
                 Text(email!,style: titleTextStyle4.copyWith(color: Colors.black),),
 
                 SizedBox(
                   height: 4,
                 ),
-                ProfileCard(icon: Icons.person, text: "My Profile",onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) { return MyProfile(); }));
-                },),
-                const SizedBox(
-                  height: 4,
-                ),
-                ProfileCard(icon: Icons.list_alt_outlined, text: "My Order(s)",onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) { return Profile(); }));
-                },),
-                const SizedBox(
-                  height: 4,
-                ),
-                ProfileCard(
-                    icon: Icons.location_city_outlined, text: "Address",onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) { return Profile(); }));
-                },),
-                const SizedBox(
-                  height: 4,
-                ),
-                ProfileCard(icon: Icons.settings, text: " Settings",onTap: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) { return Profile(); }));
-                },),
-                const SizedBox(
-                  height: 10,
-                ),
+
                 Row(
                   children: [
                     Expanded(
                         child: BottomButton(
-                            buttonName: "Log Out", onPressed: () {})),
+                            buttonName: "Log Out", onPressed: () async{
+                              bool loggedOut = false;
+                              await FirebaseAuth.instance.signOut();
+                              if(FirebaseAuth.instance.currentUser == null){
+                                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>Login()));
+                              }
+
+
+
+                            })),
                   ],
                 )
               ],

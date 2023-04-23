@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../reusable_parts/category_items_body.dart';
+
+import '../../global_widgets/category_items_body.dart';
 
 
 class Dairy extends StatelessWidget {

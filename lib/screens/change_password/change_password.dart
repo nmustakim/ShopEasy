@@ -1,8 +1,8 @@
 
 import 'package:flutter/material.dart';
-import 'package:shopeasy/reusable_parts/bottomButton.dart';
 import 'package:shopeasy/screens/login/login.dart';
 import '../../constants.dart';
+import '../../global_widgets/bottomButton.dart';
 import '../registration/parts/reusable_part.dart';
 
 
@@ -25,7 +25,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   @override
   Widget build(BuildContext context) {
     return ReusableBodyPart(topMargin: 70, childWidget: Padding(
-      padding:   defaultPadding3,
+      padding:   EdgeInsets.all(8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

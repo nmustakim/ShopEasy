@@ -1,12 +1,14 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:shopeasy/constants.dart';
-import 'package:shopeasy/reusable_parts/bottom_appbar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:shopeasy/reusable_parts/category_item_card.dart';
+import 'package:shopeasy/repositories/product_repository.dart';
 import 'package:shopeasy/screens/dairy/dairy.dart';
 import 'package:shopeasy/screens/item_details/item_details.dart';
 import 'package:shopeasy/screens/vegetables/vegetables.dart';
+import '../../global_widgets/bottom_appbar.dart';
+import '../../global_widgets/category_item_card.dart';
+import '../../models/fruit.dart';
 import '../fruits/fruits.dart';
 import '../item_card/item_card.dart';
 import '../meat/meat.dart';
@@ -19,122 +21,114 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  ProductRepository? _productRepository;
+  List<Product>? productsList;
+  List<Product>? productsListContainer;
+  List<Product>? popularList;
+  List<Product>? popularListContainer;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
   @override
   void initState() {
-
+_productRepository = ProductRepository();
+productsList = [];
+productsListContainer = [];
+popularList = [];
+popularListContainer = [];
+fetchFruitsList();
+fetchPopularList();
     super.initState();
   }
-
+  void fetchFruitsList()async {
+    try {
+      productsListContainer = await _productRepository!.getAllItems();
+      if (productsListContainer!.isNotEmpty) {
+        setState(() {
+          productsList = productsListContainer;
+        });
+      } else {}
+    }
+    catch (error) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error.toString())));
+    }
+  }
+  void fetchPopularList()async {
+    try {
+      popularListContainer = await _productRepository!.getAllPopular();
+      if (popularListContainer!.isNotEmpty) {
+        setState(() {
+          popularList = popularListContainer;
+        });
+      } else {}
+    }
+    catch (error) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error.toString())));
+    }
+  }
   @override
   Widget build(BuildContext context) {
-    Future getPopular() async{
-      var popular = await firestore.collection("popular").get();
-      return popular;
 
-    }
-    Future getCategory() async{
-      var category = await firestore.collection("categories").get();
-      return category;
 
-    }
     return SafeArea(
       child: Scaffold(
-        body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-             Container(
-               margin: const EdgeInsets.all(8),
-                
-                height: 45,
-                child: TextField(
+        body: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
 
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(12)),
-                      labelText: "search by title",
-                      prefixIcon: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(Icons.search_rounded)),
-                      suffixIcon: IconButton(
-                          onPressed: () {},
-                          icon: const Icon(
-                            Icons.sort,
-                            color: Colors.red,
-                          ))),
-                ),
-              ),
-             Padding(
-               padding: const EdgeInsets.all(6.0),
-               child: Center(child: Text("Popular",style: titleTextStyle4,)),
-             ),
-            FutureBuilder(
-                 future: getPopular(),
-                   builder: (context,snapshot){
-                   if (!snapshot.hasData){
-                     return const Center(child: Text("No data. Loading...."),);
-                   }
-                   else{
-                   return CarouselSlider.builder(
-                    itemBuilder: (BuildContext context, int index, int realIndex) {
-                       DocumentSnapshot pl = snapshot.data!.docs[index];
-                       return InkWell(
-                         onTap: (){
-                           Navigator.push(context, MaterialPageRoute(builder: (context)=>ItemDetails(name: pl["name"],price: pl["price"],image:pl["image"])));
-                         },
-                           child: ItemCard(image:pl["image"],name:pl["name"],price:pl["price"]));
+               Text("Popular",style: titleTextStyle4,),
+                SizedBox(height: 10,),
+            CarouselSlider.builder(
+                      itemBuilder: (BuildContext context, int index, int realIndex) {
+                        Product pl = popularList![index];
+                         return InkWell(
+                           onTap: (){
+                             Navigator.push(context, MaterialPageRoute(builder: (context)=>ItemDetails(name: pl.name,price: pl.price,image:pl.image)));
+                           },
+                             child: ItemCard(image:pl.image,name:pl.name,price:pl.price));
 
-                   }, itemCount: snapshot.data!.docs.length, options:CarouselOptions(
-                     disableCenter: true,
-                  height: 115,
-                     enableInfiniteScroll: true,
-                     autoPlay: true,
-                   ),
+                     }, itemCount: popularList!.length.compareTo(0), options:CarouselOptions(
+                       disableCenter: true,
+                    height: 115,
+                       enableInfiniteScroll: true,
+                       autoPlay: true,
+                     ),
 
-                   );
-
-                   }}),
+                     ),
 
 
+const SizedBox(height: 25,),
+                Text("Categories",style: titleTextStyle4,),
+               SizedBox(height: 20,),
 
-              Padding(
-                padding: const EdgeInsets.all(6.0),
-                child: Text("Categories",style: titleTextStyle4,),
-              ),
-             FutureBuilder(
-             future: getCategory(),
-                  builder: (context,snapshot) {
-                    if (!snapshot.hasData) {
-                      return const Center(child: Text("No data...Loading"),);
-                    }
-                    else {
-                      return Expanded(
-                        child: GridView.builder(
-                            itemCount: snapshot.data!.docs.length,
-                            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2), itemBuilder: (context, index) {
-                          DocumentSnapshot data = snapshot.data!.docs[index];
-                          return InkWell(
-                            onTap: (){
-                             const List <Widget> screens = [Fruits(),Vegetables(),Dairy(),Meat()];
-                             Navigator.push(context, MaterialPageRoute(builder: (context)=>screens[index]));
+                   Expanded(
+                          child: GridView.builder(
+                              itemCount:productsList!.length,
+                              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2), itemBuilder: (context, index) {
+                            Product data = productsList![index];
+                            return InkWell(
+                              onTap: (){
+                               const List <Widget> screens = [Fruits(),Vegetables(),Dairy(),Meat()];
+                               Navigator.push(context, MaterialPageRoute(builder: (context)=>screens[index]));
 
-                            },
-                            child: GridTile(
-                                child: CategoryItemCard(image: data["image"], name: data["name"])),
-                          );
-                        }),
-                      );
-                    }
-                  }
-              ),
-              const SizedBox(
-                height: 40,
-                child: BottomBar(
-                ),
-              )
-            ],
-          ),
+                              },
+                              child: GridTile(
+                                  child: CategoryItemCard(image: data.image, name: data.name)),
+                            );
+                          }),
+                        ),
+
+                const SizedBox(
+                  height: 40,
+                  child: BottomBar(
+                  ),
+                )
+              ],
+            ),
+        ),
         )
     );
   }
