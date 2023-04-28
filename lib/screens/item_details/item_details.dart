@@ -24,12 +24,14 @@ bool isAdded = false;
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final FirebaseAuth _auth = FirebaseAuth.instance;
 Future checkAdded()async {
-  final QuerySnapshot result =  await firestore.collection('users-cart').doc(_auth.currentUser!.email).collection('items').where('name',isEqualTo: widget.name).get();
-  final List < DocumentSnapshot > documents = result.docs;
-  if (documents.isNotEmpty) {
-    isAdded = true;
-  } else {
-isAdded = false;
+  final QuerySnapshot result = await firestore.collection('users-cart').doc(
+      _auth.currentUser!.email).collection('items').where(
+      'name', isEqualTo: widget.name).get();
+  final List <DocumentSnapshot> documents = result.docs;
+  if (_auth.currentUser!.email!.isNotEmpty) {
+    if (documents.length > 0) {
+      isAdded = true;
+    }
   }
 }
 
@@ -168,7 +170,7 @@ decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),),
                         children: [
                           Expanded(
                             child: BottomButton(buttonName: "Add to cart", onPressed: ()async{
-                              if(isAdded = true){
+                              if(isAdded == true){
                                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Item already added')));
                               }
                               else if(quantity == 0){  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Choose quantity')));}

@@ -73,7 +73,7 @@ class _CartState extends State<Cart> {
                                 onLongPress: (){},
                                 trailing: Image.network(pl.image),
                                 title: Text(pl.name,),
-                                subtitle: Text(pl.quantity.toString()),
+                                subtitle: Text('${pl.quantity.toString()} KG'),
                              ));
                             })
                   ),
