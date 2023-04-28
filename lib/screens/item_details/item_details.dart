@@ -1,31 +1,42 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shopeasy/screens/cart/cart.dart';
+import 'package:shopeasy/repositories/product_repository.dart';
 import '../../constants.dart';
 import '../../global_widgets/bottomButton.dart';
 
 
 class ItemDetails extends StatefulWidget {
-  String? image,name;
-  num ?price;
+ final String? image,name;
+  final num ?price;
 
 
-  ItemDetails({super.key, this.image, this.name,this.price});
+  const ItemDetails({super.key, this.image, this.name,this.price});
 
   @override
   State<ItemDetails> createState() => _ItemDetailsState();
 }
 
-
-
 class _ItemDetailsState extends State<ItemDetails> {
+ProductRepository productRepository = ProductRepository();
+var quantity = 0;
+bool isAdded = false;
+final FirebaseFirestore firestore = FirebaseFirestore.instance;
+final FirebaseAuth _auth = FirebaseAuth.instance;
+Future checkAdded()async {
+  final QuerySnapshot result =  await firestore.collection('users-cart').doc(_auth.currentUser!.email).collection('items').where('name',isEqualTo: widget.name).get();
+  final List < DocumentSnapshot > documents = result.docs;
+  if (documents.isNotEmpty) {
+    isAdded = true;
+  } else {
+isAdded = false;
+  }
+}
 
   Future addToCart() async {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
   var currentUser = _auth.currentUser;
   CollectionReference cr =
-  FirebaseFirestore.instance.collection("users-cart");
+  firestore.collection("users-cart");
   return cr
       .doc(currentUser!.email)
       .collection("items")
@@ -34,6 +45,7 @@ class _ItemDetailsState extends State<ItemDetails> {
   "name": widget.name,
   "price": widget.price,
   "image": widget.image,
+    "quantity":quantity,
   }).then((value) => print("Added to cart"));
   }
 
@@ -114,19 +126,29 @@ decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),),
                           ),
                           const Text("(420)"),
                           const Expanded(child: SizedBox()),
-                          const Icon(
-                            Icons.add_circle,
-                            size: 40,
-                            color: Colors.red,
+                          InkWell(
+                            onTap: (){if(quantity<50){setState(() {
+                              quantity++;
+                            });}},
+                            child: const Icon(
+                              Icons.add_circle,
+                              size: 40,
+                              color: Colors.red,
+                            ),
                           ),
                           Text(
-                            "1Kg",
+                            quantity.toString(),
                             style:   titleTextStyle3,
                           ),
-                          const Icon(
-                            Icons.remove_circle,
-                            size: 40,
-                            color: Colors.red,
+                          InkWell(
+                            onTap:(){if(quantity > 0){setState(() {
+                              quantity--;
+                            });}},
+                            child: const Icon(
+                              Icons.remove_circle,
+                              size: 40,
+                              color: Colors.red,
+                            ),
                           )
                         ],
                       ),
@@ -146,9 +168,14 @@ decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),),
                         children: [
                           Expanded(
                             child: BottomButton(buttonName: "Add to cart", onPressed: ()async{
+                              if(isAdded = true){
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Item already added')));
+                              }
+                              else if(quantity == 0){  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Choose quantity')));}
+                              else{
                               await addToCart();
-                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Item added successfully')));
-                            }),
+                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Item added successfully')));
+                            }}),
                           ),
                         ],
                       )

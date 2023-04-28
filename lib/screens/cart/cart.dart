@@ -1,12 +1,48 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-
 import '../../constants.dart';
 import '../../global_widgets/bottomButton.dart';
+import '../../models/cart_product.dart';
+import '../../models/product.dart';
+import '../../repositories/cart_products_repo.dart';
 
-class Cart extends StatelessWidget {
+
+class Cart extends StatefulWidget {
+
+  @override
+  State<Cart> createState() => _CartState();
+}
+
+class _CartState extends State<Cart> {
+  CartProductRepository? _productRepository;
+  List<CartProduct>? productsList;
+  List<CartProduct>? productsListContainer;
+
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+  @override
+  void initState() {
+    _productRepository = CartProductRepository();
+    productsList = [];
+    productsListContainer = [];
+    fetchCart();
+
+    super.initState();
+  }
+
+  void fetchCart() async {
+    try {
+      productsListContainer = await _productRepository!.getCartItems();
+      if (productsListContainer!.isNotEmpty) {
+        setState(() {
+          productsList = productsListContainer;
+        });
+      } else {}
+    } catch (error) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(error.toString())));
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -29,28 +65,17 @@ class Cart extends StatelessWidget {
 
                 children: [
                   Expanded(
-                    child: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection("users-cart").doc(FirebaseAuth.instance.currentUser!.email).collection("items").snapshots(),
-
-                    builder: (context,snapshot){
-                      if (!snapshot.hasData){
-                        return const Center(child: Text("No data. Loading"),);
-                      }
-                      else {
-                        return ListView.builder(
-                            itemCount: snapshot.data!.docs.length,
-
+                  child:ListView.builder(
+                            itemCount:productsList!.length,
                             itemBuilder: (context, index) {
-                              DocumentSnapshot ds = snapshot.data!.docs[index];
+                              CartProduct pl = productsList![index];
                               return Card(child: ListTile(
-                                trailing: Image.network(ds["image"]),
-                                title: Text(ds["name"],),
-                                subtitle: Text("${ds["price"]}\$"),));
-                            });
-                      }
-
-        }
-        ),
+                                onLongPress: (){},
+                                trailing: Image.network(pl.image),
+                                title: Text(pl.name,),
+                                subtitle: Text(pl.quantity.toString()),
+                             ));
+                            })
                   ),
                   Row(
                     children: [

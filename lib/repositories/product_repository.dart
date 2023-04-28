@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../models/product.dart';
 
 class ProductRepository  {
@@ -15,6 +16,7 @@ class ProductRepository  {
     return fruits;
 
   }
+
   Future <List<Product>> getAllDairy()async{
     final snapshot = await _fdb.collection("dairy").get();
     final dairy = snapshot.docs.map((e) => Product.fromSnapshot(e)).toList();
