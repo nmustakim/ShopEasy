@@ -6,7 +6,6 @@ import '../screens/home/home.dart';
 
 class BottomBar extends StatefulWidget {
 
-
   const BottomBar(
       {super.key,});
 

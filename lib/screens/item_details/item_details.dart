@@ -11,7 +11,7 @@ class ItemDetails extends StatefulWidget {
   final num ?price;
 
 
-  const ItemDetails({super.key, this.image, this.name,this.price});
+  const ItemDetails({super.key, this.image, this.name,this.price,});
 
   @override
   State<ItemDetails> createState() => _ItemDetailsState();
@@ -23,32 +23,41 @@ var quantity = 0;
 bool isAdded = false;
 final FirebaseFirestore firestore = FirebaseFirestore.instance;
 final FirebaseAuth _auth = FirebaseAuth.instance;
+@override
+  void initState() {
+   checkAdded();
+    super.initState();
+  }
 Future checkAdded()async {
   final QuerySnapshot result = await firestore.collection('users-cart').doc(
       _auth.currentUser!.email).collection('items').where(
       'name', isEqualTo: widget.name).get();
   final List <DocumentSnapshot> documents = result.docs;
-  if (_auth.currentUser!.email!.isNotEmpty) {
-    if (documents.length > 0) {
-      isAdded = true;
-    }
+
+    if (documents.isNotEmpty) {
+     setState(() {
+       isAdded = true;
+     });
+
   }
 }
 
   Future addToCart() async {
-  var currentUser = _auth.currentUser;
-  CollectionReference cr =
-  firestore.collection("users-cart");
-  return cr
-      .doc(currentUser!.email)
-      .collection("items")
-      .doc()
-      .set({
-  "name": widget.name,
-  "price": widget.price,
-  "image": widget.image,
-    "quantity":quantity,
-  }).then((value) => print("Added to cart"));
+
+      var currentUser = _auth.currentUser;
+      CollectionReference cr =
+      firestore.collection("users-cart");
+      return await cr
+          .doc(currentUser!.email)
+          .collection("items")
+          .doc()
+          .set({
+        "name": widget.name,
+        "price": widget.price,
+        "image": widget.image,
+        "quantity": quantity,
+      }).then((value) => print("Added to cart"));
+
   }
 
 

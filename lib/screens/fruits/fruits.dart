@@ -16,6 +16,7 @@ class Fruits extends StatefulWidget {
 }
 
 class _FruitsState extends State<Fruits> {
+
   final searchController = TextEditingController();
   ProductRepository? _productRepository;
   List<Product>? productsList;
@@ -118,6 +119,7 @@ class _FruitsState extends State<Fruits> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ItemDetails(
+
                                           price: data.price,
                                           image: data.image,
                                           name: data.name,

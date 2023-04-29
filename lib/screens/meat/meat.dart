@@ -122,6 +122,7 @@ class _MeatsState extends State<Meats> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ItemDetails(
+
                                           price: data.price,
                                           image: data.image,
                                           name: data.name,

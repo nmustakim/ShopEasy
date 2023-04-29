@@ -1,8 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:shopeasy/my_profile.dart';
-import 'package:shopeasy/screens/Profile/profile_parts/profile_card.dart';
 import 'package:shopeasy/screens/login/login.dart';
 import '../../constants.dart';
 import '../../global_widgets/bottomButton.dart';

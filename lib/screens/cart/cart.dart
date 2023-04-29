@@ -3,46 +3,27 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../constants.dart';
 import '../../global_widgets/bottomButton.dart';
-import '../../models/cart_product.dart';
-import '../../models/product.dart';
-import '../../repositories/cart_products_repo.dart';
 
 
 class Cart extends StatefulWidget {
+  const Cart({super.key});
+
 
   @override
   State<Cart> createState() => _CartState();
 }
 
 class _CartState extends State<Cart> {
-  CartProductRepository? _productRepository;
-  List<CartProduct>? productsList;
-  List<CartProduct>? productsListContainer;
+
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
-  void initState() {
-    _productRepository = CartProductRepository();
-    productsList = [];
-    productsListContainer = [];
-    fetchCart();
 
-    super.initState();
-  }
+  String? email = FirebaseAuth.instance.currentUser!.email;
 
-  void fetchCart() async {
-    try {
-      productsListContainer = await _productRepository!.getCartItems();
-      if (productsListContainer!.isNotEmpty) {
-        setState(() {
-          productsList = productsListContainer;
-        });
-      } else {}
-    } catch (error) {
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text(error.toString())));
-    }
-  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -65,16 +46,31 @@ class _CartState extends State<Cart> {
 
                 children: [
                   Expanded(
-                  child:ListView.builder(
-                            itemCount:productsList!.length,
-                            itemBuilder: (context, index) {
-                              CartProduct pl = productsList![index];
-                              return Card(child: ListTile(
-                                onLongPress: (){},
-                                trailing: Image.network(pl.image),
-                                title: Text(pl.name,),
-                                subtitle: Text('${pl.quantity.toString()} KG'),
-                             ));
+                  child:StreamBuilder(
+                           stream: firestore.collection("users-cart").doc(email).collection("items").snapshots(),
+                           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+                             if(snapshot.hasData) {
+
+                               return ListView.builder(itemCount:snapshot.data!.docs.length,itemBuilder: (context,index){
+                                 DocumentSnapshot data =
+                                 snapshot.data!.docs[index];
+                                 return Card(child: ListTile(
+                                   onLongPress: () {
+                                   firestore.collection("users-cart")
+                                         .doc(email)
+                                         .collection("items")
+                                         .doc(data.id)
+                                         .delete();
+                                   },
+                                   trailing: Image.network(data['image']),
+                                   title: Text(data["name"]),
+                                   subtitle: Text('${data["quantity"].toString()} KG'),
+                                 ));
+                               });
+                             }
+                             else{
+                               return const Center(child: CircularProgressIndicator(),);
+                             }
                             })
                   ),
                   Row(
@@ -93,3 +89,5 @@ class _CartState extends State<Cart> {
       );
   }
 }
+
+

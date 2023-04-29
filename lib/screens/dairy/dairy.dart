@@ -78,9 +78,9 @@ class _DairiesState extends State<Dairies> {
           foregroundColor: Colors.black,
           elevation: 0,
           centerTitle: true,
-          title: Text(
+          title: const Text(
             'Dairies',
-            style: const TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+            style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
           ),
         ),
         body: Padding(
@@ -105,7 +105,7 @@ class _DairiesState extends State<Dairies> {
                           color: Colors.red,
                         ))),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 25,
               ),
               Expanded(
@@ -122,6 +122,7 @@ class _DairiesState extends State<Dairies> {
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) => ItemDetails(
+
                                           price: data.price,
                                           image: data.image,
                                           name: data.name,
