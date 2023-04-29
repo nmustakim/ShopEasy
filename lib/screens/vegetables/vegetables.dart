@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../global_widgets/category_item_card.dart';
 import '../../models/product.dart';
 import '../../repositories/product_repository.dart';
+import '../cart/cart.dart';
 import '../item_details/item_details.dart';
 
 class Vegetables extends StatefulWidget {
@@ -68,6 +69,19 @@ class _VegetablesState extends State<Vegetables> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
+          actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Cart()));
+                },
+                icon: const Icon(
+                  Icons.shopping_cart_outlined,
+                  size: 35,
+                  color: Colors.redAccent,
+                )),
+          ],
+
           leading: IconButton(
               onPressed: () {
                 Navigator.pop(context);
@@ -78,7 +92,7 @@ class _VegetablesState extends State<Vegetables> {
           backgroundColor: Colors.white,
           foregroundColor: Colors.black,
           elevation: 0,
-          centerTitle: true,
+
           title: const Text(
             'Vegetables',
             style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),

@@ -74,7 +74,7 @@ class _HomeState extends State<Home> {
                 IconButton(
                     onPressed: () {
                       Navigator.push(context,
-                          MaterialPageRoute(builder: (context) => Cart()));
+                          MaterialPageRoute(builder: (context) => const Cart()));
                     },
                     icon: const Icon(
                       Icons.shopping_cart_outlined,

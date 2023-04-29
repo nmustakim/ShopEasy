@@ -17,11 +17,9 @@ class _CartState extends State<Cart> {
 
 
   FirebaseFirestore firestore = FirebaseFirestore.instance;
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-  @override
 
   String? email = FirebaseAuth.instance.currentUser!.email;
-
+int quantity = 0;
 
 
 
@@ -36,7 +34,7 @@ class _CartState extends State<Cart> {
           backgroundColor: Colors.white,
           title: Text("Cart",style: titleTextStyle1,),
           elevation: 0,
-          leading: IconButton(icon: const Icon(Icons.arrow_circle_left),onPressed: (){
+          leading: IconButton(icon: const Icon(Icons.arrow_circle_left,color: Colors.red,size: 40,),onPressed: (){
             Navigator.pop(context);
           },)
         ),
@@ -54,7 +52,14 @@ class _CartState extends State<Cart> {
                                return ListView.builder(itemCount:snapshot.data!.docs.length,itemBuilder: (context,index){
                                  DocumentSnapshot data =
                                  snapshot.data!.docs[index];
+                                 quantity = data["quantity"];
                                  return Card(child: ListTile(
+                                   onTap:(){ firestore.collection("users-cart").doc(email).collection("items").doc(data.id).update(
+                                       {
+                                         "name":data["name"],
+                                         "image":data["image"],
+                                         "quantity":quantity
+                                       });},
                                    onLongPress: () {
                                    firestore.collection("users-cart")
                                          .doc(email)

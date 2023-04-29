@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shopeasy/screens/forgot_password/forgot_password.dart';
-import 'package:shopeasy/screens/home/home.dart';
 import '../../constants.dart';
 import '../../global_widgets/bottomButton.dart';
 import '../../global_widgets/bottom_appbar.dart';

@@ -150,7 +150,7 @@ sendUserData()async{
              Expanded(
                child: BottomButton(buttonName: "Sign Up", onPressed: ()async{
                  await sendUserData();
-                 Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));
+                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const Login()));
 
                }),
              ),

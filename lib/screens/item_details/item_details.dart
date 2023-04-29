@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:shopeasy/repositories/product_repository.dart';
 import '../../constants.dart';
 import '../../global_widgets/bottomButton.dart';
+import '../cart/cart.dart';
 
 
 class ItemDetails extends StatefulWidget {
@@ -196,6 +197,22 @@ decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),),
                 ),
               ),
             ),
+          Positioned(
+            left: 280,
+            child: IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Cart()));
+                },
+                icon: const Icon(
+                  Icons.shopping_cart_outlined,
+                  size: 50,
+                  color: Colors.redAccent,
+                )),
+          ),
+    IconButton(icon: const Icon(Icons.arrow_circle_left,color: Colors.red,size: 40,),onPressed: (){
+            Navigator.pop(context);
+          },)
 
         ],
       )),
