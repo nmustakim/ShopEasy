@@ -89,24 +89,7 @@ class _HomeState extends State<Home> {
                 style: titleTextStyle1,
               ),
             ),
-            drawer: Drawer(
-              child: ListView(
-                children: const [
-                  ListTile(
-                    tileColor: Colors.white60,
-                  ),
-                  ListTile(
-                    tileColor: Colors.white60,
-                  ),
-                  ListTile(
-                    tileColor: Colors.white60,
-                  ),
-                  ListTile(
-                    tileColor: Colors.white60,
-                  ),
-                ],
-              ),
-            ),
+
             body: Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
