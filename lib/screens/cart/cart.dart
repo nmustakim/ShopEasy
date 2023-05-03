@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../constants.dart';
 import '../../global_widgets/bottomButton.dart';
+import '../../global_widgets/bottom_appbar.dart';
+import '../home/home.dart';
 
 
 class Cart extends StatefulWidget {
@@ -19,7 +21,6 @@ class _CartState extends State<Cart> {
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   String? email = FirebaseAuth.instance.currentUser!.email;
-int quantity = 0;
 
 
 
@@ -35,7 +36,7 @@ int quantity = 0;
           title: Text("Cart",style: titleTextStyle1,),
           elevation: 0,
           leading: IconButton(icon: const Icon(Icons.arrow_circle_left,color: Colors.red,size: 40,),onPressed: (){
-            Navigator.pop(context);
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>BottomBar()));
           },)
         ),
             body:Padding(
@@ -52,14 +53,9 @@ int quantity = 0;
                                return ListView.builder(itemCount:snapshot.data!.docs.length,itemBuilder: (context,index){
                                  DocumentSnapshot data =
                                  snapshot.data!.docs[index];
-                                 quantity = data["quantity"];
+
                                  return Card(child: ListTile(
-                                   onTap:(){ firestore.collection("users-cart").doc(email).collection("items").doc(data.id).update(
-                                       {
-                                         "name":data["name"],
-                                         "image":data["image"],
-                                         "quantity":quantity
-                                       });},
+
                                    onLongPress: () {
                                    firestore.collection("users-cart")
                                          .doc(email)
@@ -67,7 +63,10 @@ int quantity = 0;
                                          .doc(data.id)
                                          .delete();
                                    },
-                                   trailing: Image.network(data['image']),
+                                   trailing: Row(mainAxisSize: MainAxisSize.min,mainAxisAlignment:MainAxisAlignment.spaceBetween,children: [
+                                     Text('Total = ${data["totalPrice"].toString()}\$'),
+                                     Image.network(data['image']),
+                                   ],),
                                    title: Text(data["name"]),
                                    subtitle: Text('${data["quantity"].toString()} KG'),
                                  ));

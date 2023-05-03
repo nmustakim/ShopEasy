@@ -46,7 +46,7 @@ sendUserData()async{
     "name":nameController!.text,
     "phone":phoneController!.text,
     "age": ageController!.text,
-    "gender": dropdownValue
+
 
 
   }).then((value) => print("User data added")).catchError((onError)=>print("Something wrong"));
@@ -114,36 +114,7 @@ sendUserData()async{
               const SizedBox(
                 height: 8,
               ),
-              Row(
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
 
-                        borderRadius: BorderRadius.circular(12)),
-                    child: const Text("Select your gender"),
-                  ),
-                  const SizedBox(
-                    width: 8,
-                  ),
-                  DropdownButton<String>(
-                    value: dropdownValue!,
-                    icon: const Icon(Icons.arrow_drop_down_sharp),
-                    style: const TextStyle(color: Colors.deepPurple),
-                    onChanged: (String? value) {
-                      setState(() {
-                        dropdownValue = value;
-                      });
-                    },
-                    items: genderList
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ],
-              ),
          
          Row(
            children: [

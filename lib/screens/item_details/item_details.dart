@@ -57,6 +57,7 @@ Future checkAdded()async {
         "price": widget.price,
         "image": widget.image,
         "quantity": quantity,
+        "totalPrice":quantity*widget.price!,
       }).then((value) => print("Added to cart"));
 
   }
