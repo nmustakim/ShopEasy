@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shopeasy/screens/forgot_password/forgot_password.dart';
+import 'package:shopeasy/screens/home/home.dart';
 import '../../constants.dart';
+import '../../firebase_helpers/firebaseAuth_helper.dart';
 import '../../global_widgets/bottomButton.dart';
 import '../../global_widgets/bottom_appbar.dart';
 import '../registration/parts/bottom_row.dart';
@@ -16,14 +18,13 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
-  FirebaseAuth? firebaseAuth;
+
   TextEditingController? emailController;
   TextEditingController? passwordController;
   @override
   void initState() {
     emailController = TextEditingController();
     passwordController = TextEditingController();
-    firebaseAuth = FirebaseAuth.instance;
     super.initState();
   }
   signIn()async{
@@ -110,7 +111,13 @@ class _LoginState extends State<Login> {
           children: [
             Expanded(
               child: BottomButton(buttonName: 'Log in', onPressed: ()async{
-signIn();
+bool isValidated = loginVaildation(emailController!.text, passwordController!.text);
+if(isValidated == true){
+  bool isLoggedIn = await FirebaseAuthHelper.firebaseAuthHelper.login(emailController!.text, passwordController!.text, context);
+  if(isLoggedIn == true){
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>BottomBar()), (route) => false);
+  }
+}
 
 
 

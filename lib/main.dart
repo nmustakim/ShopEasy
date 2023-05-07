@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:shopeasy/screens/splash/splash.dart';
+import 'package:provider/provider.dart';
+import 'package:shopeasy/firebase_helpers/firebaseAuth_helper.dart';
+import 'package:shopeasy/screens/home/home.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:shopeasy/screens/welcome.dart';
+import 'package:shopeasy/shop_provider/shop_provider.dart';
 import 'firebase_options.dart';
+import 'global_widgets/bottom_appbar.dart';
 Future <void> main()async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -17,7 +22,9 @@ class ShopEasy extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return ChangeNotifierProvider(
+      create: (context)=>ShopProvider(),
+     child: MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
 
@@ -27,9 +34,19 @@ fontFamily: ('NovaRound'),
 
 
       ),
-      home: const SplashScreen(
+      home: StreamBuilder(
+        stream: FirebaseAuthHelper.firebaseAuthHelper.getAuthChange,
+        builder: (context,snapshot){
+          if(snapshot.hasData){
+            return BottomBar();
+          }
+          else{
+            return Welcome();
+          }
+        },
 
       )
+    )
     );
   }
 }

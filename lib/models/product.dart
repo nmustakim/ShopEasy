@@ -1,25 +1,42 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:convert';
 
-class Product {
-  final String? id;
- final String name;
- final String image;
- final dynamic price;
+ProductModel ProductModelFromJson(String str) => ProductModel.fromJson(json.decode(str));
 
- Product({this.id,required this.name, required this.image, required this.price});
- toJson(){
+String ProductModelToJson(ProductModel data) => json.encode(data.toJson());
 
-  return {"name":name, "image":image,"price":price};
- }
+class ProductModel {
+  ProductModel({
+    required this.image,
+    required this.id,
+    required this.name,
+    required this.price,
+    required this.description,
+    required this.isFav
 
-factory Product.fromSnapshot(DocumentSnapshot<Map<String, dynamic>>documentSnapshot){
-  final data = documentSnapshot.data();
-  return Product(
-      id: documentSnapshot.id,
-      name: data!["name"],
-      image: data["image"],
-      price: data["price"]
+  });
 
+  String image;
+  String name;
+ dynamic price;
+  String id;
+  String description;
+  bool isFav;
+
+  factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
+    id: json["id"],
+    image: json["image"],
+    price: json["price"],
+    name: json["name"], description: json['description'], isFav: false,
   );
-}
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "image": image,
+    "name": name,
+    "price": price,
+    "description":description,
+    "isFav":isFav
+  };
+
+
 }

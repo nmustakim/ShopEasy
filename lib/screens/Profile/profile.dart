@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../constants.dart';
+import '../../firebase_helpers/firestore_helper.dart';
+import '../../models/user.dart';
 
 class Profile extends StatefulWidget {
   const Profile({super.key});
@@ -12,90 +15,157 @@ class Profile extends StatefulWidget {
 }
 
 class ProfileState extends State<Profile> {
-  TextEditingController ?_name;
-  TextEditingController ?_phone;
-  TextEditingController ?_age;
-  CollectionReference collectionReference = FirebaseFirestore.instance.collection("users-data");
+  TextEditingController? _name;
+  TextEditingController? _email;
+  TextEditingController? _phone;
+  TextEditingController? _age;
+  CollectionReference collectionReference =
+      FirebaseFirestore.instance.collection("users");
 
+  UserModel? user;
+  bool isLoading = false;
 
-  setToTextField(data){
-    return  Column(
+  @override
+  void initState() {
+    getUser();
+    super.initState();
+  }
+
+  getUser() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    user = await FireStoreHelper.fireStoreHelper.getUser();
+
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+  setToTextField() {
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Name',style: titleTextStyle4,),
-        const SizedBox(height: 8,),
-        TextField(
-          decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(15))),
-          controller: _name = TextEditingController(text: data['name']),
+        const Text('Name'),
+        const SizedBox(
+          height: 8,
         ),
-        const SizedBox(height: 15,),
-        Text('Phone',style: titleTextStyle4,),
-        const SizedBox(height: 8,),
-        TextField(
-          decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(15))),
-          controller: _phone = TextEditingController(text: data['phone']),
+        SizedBox(
+          height: 35,
+          child: TextField(
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15))),
+            controller: _name = TextEditingController(text: user!.name),
+          ),
         ),
-        const SizedBox(height: 15,),
-        Text('Age',style: titleTextStyle4,),
-        const SizedBox(height: 8,),
-        TextField(
-          decoration: InputDecoration(border: OutlineInputBorder(borderRadius: BorderRadius.circular(15))),
-          controller: _age = TextEditingController(text: data['age']),
+        const SizedBox(
+          height: 10,
         ),
-        const SizedBox(height: 15,),
-        Center(child: ElevatedButton(
-          style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15))),
-            onPressed: ()=>updateData(), child: const Text("Update")))
+        const Text('Email'),
+        const SizedBox(
+          height: 8,
+        ),
+        SizedBox(
+          height: 35,
+          child: TextField(
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15))),
+            controller: _email = TextEditingController(text: user!.email),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const Text('Phone'),
+        const SizedBox(
+          height: 8,
+        ),
+        SizedBox(
+          height: 35,
+          child: TextField(
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15))),
+            controller: _phone = TextEditingController(text: user!.phone),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        const Text(
+          'Age',
+        ),
+        const SizedBox(
+          height: 8,
+        ),
+        SizedBox(
+          height: 35,
+          child: TextField(
+            decoration: InputDecoration(
+                border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(15))),
+            controller: _age = TextEditingController(text: user!.age),
+          ),
+        ),
+        const SizedBox(
+          height: 10,
+        ),
+        Center(
+            child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15))),
+                onPressed: () => updateData(),
+                child: const Text("Update")))
       ],
     );
   }
 
-  updateData(){
-
-    return collectionReference.doc(FirebaseAuth.instance.currentUser!.email).update(
-        {
-          "name":_name!.text,
-          "phone":_phone!.text,
-          "age":_age!.text,
-        }
-    ).then((value) => print("Updated Successfully"));
+  updateData() {
+    return collectionReference
+        .doc(FirebaseAuth.instance.currentUser!.uid)
+        .update({
+      "name": _name!.text,
+      "email": _email!.text,
+      "phone": _phone!.text,
+      "age": _age!.text,
+    }).then((value) => Fluttertoast.showToast(msg: 'Updated'));
   }
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SingleChildScrollView(
-        child: SafeArea(child: Padding(
-          padding: const EdgeInsets.all(20.0),
-          child: Column(
-            children: [
-              Text("Profile", style: titleTextStyle1),
-              const SizedBox(
-                height: 8,
-              ),
-              const CircleAvatar(
-                radius: 50,
-                backgroundImage: AssetImage("assets/images/profilepic.jpg"),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              StreamBuilder(
-                stream: collectionReference.doc(FirebaseAuth.instance.currentUser!.email).snapshots(),
-                builder: (BuildContext context, AsyncSnapshot snapshot){
-                  var data = snapshot.data;
-                  if(data==null){
-                    return const Center(child: CircularProgressIndicator(),);
-                  }
-                  return setToTextField(data);
-                },
-
-              ),
-            ],
-          ),
-        )),
-      ),
+      body: isLoading
+          ? const Center(
+              child: SizedBox(
+                  height: 50, width: 50, child: CircularProgressIndicator()),
+            )
+          : SingleChildScrollView(
+              child: SafeArea(
+                  child: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Column(
+                  children: [
+                    Text("Profile", style: titleTextStyle1),
+                    const SizedBox(
+                      height: 8,
+                    ),
+                    const CircleAvatar(
+                      radius: 50,
+                      backgroundImage:
+                          AssetImage("assets/images/profilepic.jpg"),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    setToTextField()
+                  ],
+                ),
+              )),
+            ),
     );
   }
 }

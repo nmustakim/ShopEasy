@@ -1,8 +1,8 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shopeasy/constants.dart';
+import 'package:shopeasy/firebase_helpers/firebaseAuth_helper.dart';
+import 'package:shopeasy/global_widgets/bottom_appbar.dart';
 import 'package:shopeasy/screens/terms_privacy_policies/terms_privacy.dart';
-import 'package:shopeasy/screens/user_details/user_details.dart';
 import '../../global_widgets/bottomButton.dart';
 import '../login/login.dart';
 import 'parts/bottom_row.dart';
@@ -16,101 +16,32 @@ class Registration extends StatefulWidget {
 }
 
 class _RegistrationState extends State<Registration> {
-  FirebaseAuth? firebaseAuth;
+
   TextEditingController? emailController;
   TextEditingController? passwordController;
+  TextEditingController? nameController;
+  TextEditingController? phoneController;
+
+
   bool? isChecked;
   @override
   void initState() {
     isChecked = false;
-
+  nameController = TextEditingController();
+ phoneController = TextEditingController();
     emailController = TextEditingController();
     passwordController = TextEditingController();
-
-    firebaseAuth = FirebaseAuth.instance;
+    
     super.initState();
   }
-  register()async{
-    if(isChecked==false){
-      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-        content: const Text("Check the box "),
-        action: SnackBarAction(label: 'Cancel', onPressed: () {},),
-      ));
-    }
-    else{
-      try {
-        final credential = await FirebaseAuth.instance
-            .createUserWithEmailAndPassword(
-            email: emailController!.text,
-            password: passwordController!.text);
-        var authCredential = credential.user;
-        if(authCredential!.uid.isNotEmpty )
-        {
-          Navigator.push(context,
-              MaterialPageRoute(
-                  builder: (context) => const UserDetails()));}
-        else{
-          return ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-            content: Text("Error!"),
-          ));
-        }
-      } on FirebaseAuthException catch (e) {
-        if (e.code == 'weak-password') {
-          await showDialog(
-              context: context,
-              builder: (context) =>
-                  AlertDialog(
-                    title: const Text("Weak Password!"),
-                    content: const Text(
-                        "The password you have provided is too weak"),
-                    actions: [
-                      ElevatedButton(
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          style: const ButtonStyle(
-                              backgroundColor:
-                              MaterialStatePropertyAll(
-                                  Colors.red)),
-                          child: const Text("Cancel"))
-                    ],
-                  ));
-        } else if (e.code == 'email-already-in-use') {
-          showDialog(
-              context: context,
-              builder: (context) =>
-                  AlertDialog(
-                    title: const Text("Used email"),
-                    content: const Text(
-                        "The account already exists for that email."),
-                    actions: [
-                      ElevatedButton(
 
-                          onPressed: () {
-                            Navigator.pop(context);
-                          },
-                          style: const ButtonStyle(
-                              backgroundColor:
-                              MaterialStatePropertyAll(
-                                  Colors.red)),
-                          child: const Text("Cancel"))
-                    ],
-                  ));
-        }
-      } catch (e) {
-        print(e);
-      }
-
-    }
-
-  }
 
   @override
   Widget build(BuildContext context) {
     return ReusableBodyPart(
       topMargin: 120,
       childWidget: Padding(
-        padding: EdgeInsets.all(8),
+        padding: const EdgeInsets.all(8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -126,8 +57,37 @@ class _RegistrationState extends State<Registration> {
             ),
             SizedBox(height: 50,
                 child: TextField(
+                    controller: nameController,
+                    decoration: InputDecoration(
+                      hintText: "Name",
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12)
+                        ))
+                )),
+            const SizedBox(
+              height: 8,
+            ),
+            SizedBox(height: 50,
+                child: TextField(
+                    controller: phoneController,
+                    decoration: InputDecoration(
+                        hintText: "phone",
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12)
+                        ))
+                )),
+            const SizedBox(
+              height: 8,
+            ),
+            SizedBox(height: 50,
+                child: TextField(
                     controller: emailController,
                     decoration: InputDecoration(
+                        hintText: "Email",
                         filled: true,
                         fillColor: Colors.white,
                         border: OutlineInputBorder(
@@ -144,6 +104,7 @@ class _RegistrationState extends State<Registration> {
                    ,
                  controller: passwordController,
                  decoration: InputDecoration(
+                     hintText: "Password",
 
                    filled: true,
                    fillColor: Colors.white,
@@ -184,11 +145,17 @@ class _RegistrationState extends State<Registration> {
             Row(
               children: [
                 Expanded(
-                  child: BottomButton(buttonName: 'Next',
+                  child: BottomButton(buttonName: 'Sign Up',
 
-                    onPressed: () async {
-                    register();
-
+                    onPressed: ()  async{
+                    
+bool isValidated = signUpVaildation(emailController!.text, passwordController!.text, nameController!.text, phoneController!.text);
+if(isValidated == true){
+  bool isLoggedIn = await FirebaseAuthHelper.firebaseAuthHelper.signUp(nameController!.text,emailController!.text, passwordController!.text, context);
+  if(isLoggedIn == true){
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const BottomBar()), (route) => false);
+  }
+}
                       }
 
                   ),

@@ -12,7 +12,7 @@ var onPressed;
     return SizedBox(
       height: 45,
       child: ElevatedButton(onPressed:onPressed,
-      style: ElevatedButton.styleFrom(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)) ), child: Text(buttonName,style: titleTextStyle3,),),
+      style: ElevatedButton.styleFrom(shape:RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)) ), child: Text(buttonName,style: titleTextStyle4,),),
     );
   }
 }

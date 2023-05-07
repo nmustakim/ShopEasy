@@ -1,80 +1,53 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
-import 'package:shopeasy/repositories/product_repository.dart';
+import 'package:shopeasy/models/product.dart';
+
 import '../../constants.dart';
 import '../../global_widgets/bottomButton.dart';
 import '../cart/cart.dart';
 
 
 class ItemDetails extends StatefulWidget {
- final String? image,name;
-  final num ?price;
+ final ProductModel product;
+
+  const ItemDetails({super.key, required this.product});
 
 
-  const ItemDetails({super.key, this.image, this.name,this.price,});
+
 
   @override
   State<ItemDetails> createState() => _ItemDetailsState();
 }
 
 class _ItemDetailsState extends State<ItemDetails> {
-ProductRepository productRepository = ProductRepository();
-var quantity = 0;
-bool isAdded = false;
-final FirebaseFirestore firestore = FirebaseFirestore.instance;
-final FirebaseAuth _auth = FirebaseAuth.instance;
-@override
-  void initState() {
-   checkAdded();
-    super.initState();
-  }
-Future checkAdded()async {
-  final QuerySnapshot result = await firestore.collection('users-cart').doc(
-      _auth.currentUser!.email).collection('items').where(
-      'name', isEqualTo: widget.name).get();
-  final List <DocumentSnapshot> documents = result.docs;
-
-    if (documents.isNotEmpty) {
-     setState(() {
-       isAdded = true;
-     });
-
-  }
-}
-
-  Future addToCart() async {
-
-      var currentUser = _auth.currentUser;
-      CollectionReference cr =
-      firestore.collection("users-cart");
-      return await cr
-          .doc(currentUser!.email)
-          .collection("items")
-          .doc()
-          .set({
-        "name": widget.name,
-        "price": widget.price,
-        "image": widget.image,
-        "quantity": quantity,
-        "totalPrice":quantity*widget.price!,
-      }).then((value) => print("Added to cart"));
-
-  }
-
-
+  int quantity = 1;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+
+          appBar: AppBar(
+backgroundColor: Colors.white,
+            foregroundColor: Colors.red,
+            elevation: 0,
+            actions: [
+            IconButton(
+                onPressed: () {
+                  Navigator.push(context,
+                      MaterialPageRoute(builder: (context) => const Cart()));
+                },
+                icon: const Icon(
+                  Icons.shopping_cart_outlined,
+
+                )),
+          ],),
           body: Stack(
         children: [
           Image.network(
-            "${widget.image}",fit: BoxFit.fill,
+            widget.product.image,height: 200,width: 420,
           ),
           Container(
-            margin: const EdgeInsets.fromLTRB(20, 260  ,20,20),
+            margin: const EdgeInsets.fromLTRB(20, 200  ,20,15),
 
 decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),),
 
@@ -89,11 +62,13 @@ decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),),
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 20,),
-                      Text(
-                        "${widget.name}",
+                 Row(
+                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                   children: [     Text(
+                   widget.product.name,
 
-                        style:   titleTextStyle1,
-                      ),
+                   style:   titleTextStyle1,
+                 ),Icon(Icons.favorite_outline,color: Colors.red,)],),
                       const SizedBox(height: 10,),
                       Row(
                         children: [
@@ -104,7 +79,7 @@ decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),),
                                 fontWeight: FontWeight.bold,
                                 fontSize: 20),
                           ),
-                          Text("${widget.price}", style:   bodyTextStyle1),
+                          Text(widget.product.price.toString(), style:   bodyTextStyle1),
                           const SizedBox(
                             width: 10,
                           ),
@@ -121,6 +96,7 @@ decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),),
                         ],
                       ),
                       const SizedBox(height: 20,),
+
                       Row(
                         children: [
                           const Icon(
@@ -140,29 +116,35 @@ decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),),
                           const Text("(420)"),
                           const Expanded(child: SizedBox()),
                           InkWell(
-                            onTap: (){if(quantity<50){setState(() {
+                            onTap: (){setState(() {
                               quantity++;
-                            });}},
+                            });},
                             child: const Icon(
                               Icons.add_circle,
-                              size: 40,
+                              size: 30,
                               color: Colors.red,
                             ),
                           ),
-                          Text(
-                            quantity.toString(),
-                            style:   titleTextStyle3,
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Text(
+                              quantity.toString(),
+                              style:   titleTextStyle3,
+                            ),
                           ),
                           InkWell(
-                            onTap:(){if(quantity > 0){setState(() {
+                            onTap:(){if(quantity >= 1){setState(() {
                               quantity--;
                             });}},
                             child: const Icon(
                               Icons.remove_circle,
-                              size: 40,
+                              size: 30,
                               color: Colors.red,
                             ),
-                          )
+                          ),
+
+
+
                         ],
                       ),
                       const SizedBox(height: 30,),
@@ -174,22 +156,17 @@ decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),),
                         height: 10,
                       ),
                       Text(
-                          "The ${widget.name} are consumed in diverse ways: raw or cooked, and in many dishes, sauces, salads, and drinks.vegetable ingredient or side dish.",
+                          "The ${widget.product.name} are consumed in diverse ways: raw or cooked, and in many dishes, sauces, salads, and drinks.vegetable ingredient or side dish.",
                           style:   bodyTextStyle3),
-                      const Expanded(child: SizedBox()),
+                      SizedBox(height: 20,),
                       Row(
+                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Expanded(
-                            child: BottomButton(buttonName: "Add to cart", onPressed: ()async{
-                              if(isAdded == true){
-                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Item already added')));
-                              }
-                              else if(quantity == 0){  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Choose quantity')));}
-                              else{
-                              await addToCart();
-                          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text('Item added successfully')));
-                            }}),
-                          ),
+                          BottomButton(buttonName: "Add to cart", onPressed: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart()));
+                       }),
+                          BottomButton(buttonName: "Buy", onPressed: ()async{
+                          }),
                         ],
                       )
 
@@ -198,22 +175,7 @@ decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),),
                 ),
               ),
             ),
-          Positioned(
-            left: 280,
-            child: IconButton(
-                onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Cart()));
-                },
-                icon: const Icon(
-                  Icons.shopping_cart_outlined,
-                  size: 50,
-                  color: Colors.redAccent,
-                )),
-          ),
-    IconButton(icon: const Icon(Icons.arrow_circle_left,color: Colors.red,size: 40,),onPressed: (){
-            Navigator.pop(context);
-          },)
+
 
         ],
       )),
