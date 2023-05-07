@@ -1,9 +1,12 @@
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:shopeasy/models/product.dart';
 
 import '../../constants.dart';
 import '../../global_widgets/bottomButton.dart';
+import '../../shop_provider/shop_provider.dart';
 import '../cart/cart.dart';
 
 
@@ -23,6 +26,9 @@ class _ItemDetailsState extends State<ItemDetails> {
   int quantity = 1;
   @override
   Widget build(BuildContext context) {
+   ShopProvider shopProvider = Provider.of<ShopProvider>(
+      context,
+    );
     return SafeArea(
       child: Scaffold(
 
@@ -68,7 +74,7 @@ decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),),
                    widget.product.name,
 
                    style:   titleTextStyle1,
-                 ),Icon(Icons.favorite_outline,color: Colors.red,)],),
+                 ),const Icon(Icons.favorite_outline,color: Colors.red,)],),
                       const SizedBox(height: 10,),
                       Row(
                         children: [
@@ -152,21 +158,21 @@ decoration: BoxDecoration(borderRadius: BorderRadius.circular(50),),
                         "Details",
                         style:   titleTextStyle3,
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
+           
                       Text(
                           "The ${widget.product.name} are consumed in diverse ways: raw or cooked, and in many dishes, sauces, salads, and drinks.vegetable ingredient or side dish.",
                           style:   bodyTextStyle3),
-                      SizedBox(height: 20,),
+                      const SizedBox(height: 20,),
                       Row(
                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          BottomButton(buttonName: "Add to cart", onPressed: (){
-                            Navigator.push(context, MaterialPageRoute(builder: (context)=>Cart()));
+                          Expanded(
+                            child: BottomButton(buttonName: "Add to cart", onPressed: (){
+                            ProductModel pm = widget.product.copyWith(quantity: quantity);
+                            shopProvider.addProduct(pm);
+                         Fluttertoast.showToast(msg: "Added!");
                        }),
-                          BottomButton(buttonName: "Buy", onPressed: ()async{
-                          }),
+                          ),
                         ],
                       )
 

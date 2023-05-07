@@ -1,10 +1,10 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shopeasy/models/product.dart';
+import 'package:shopeasy/shop_provider/shop_provider.dart';
 import '../../constants.dart';
 import '../../global_widgets/bottomButton.dart';
 import '../../global_widgets/bottom_appbar.dart';
-import '../home/home.dart';
 
 
 class Cart extends StatefulWidget {
@@ -18,14 +18,11 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
 
 
-  FirebaseFirestore firestore = FirebaseFirestore.instance;
-
-  String? email = FirebaseAuth.instance.currentUser!.email;
-
 
 
   @override
   Widget build(BuildContext context) {
+    ShopProvider shopProvider = Provider.of<ShopProvider>(context);
     return
       SafeArea(
         child: Scaffold(
@@ -45,37 +42,29 @@ class _CartState extends State<Cart> {
 
                 children: [
                   Expanded(
-                  child:StreamBuilder(
-                           stream: firestore.collection("users-cart").doc(email).collection("items").snapshots(),
-                           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                             if(snapshot.hasData) {
+                  child:ListView.builder(itemCount:shopProvider.getCartProductList.length,itemBuilder: (context,index){
+                    ProductModel pm = shopProvider.getCartProductList[index];
+                    return Card(
+                      elevation: 2,
+                      child: ListTile(
+                        leading: Image.network(pm.image),
+                        title: Text(pm.name),
+                        subtitle: Text(pm.quantity.toString()),
+                        trailing: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          mainAxisSize: MainAxisSize.min,children:
+                        [
+                         const Icon(Icons.add_circle) ,
+                          const Text("12"),
+                          const Icon(Icons.remove_circle),
 
-                               return ListView.builder(itemCount:snapshot.data!.docs.length,itemBuilder: (context,index){
-                                 DocumentSnapshot data =
-                                 snapshot.data!.docs[index];
+                        ]
+                          ,),
 
-                                 return Card(child: ListTile(
+                      ),
+                    );
 
-                                   onLongPress: () {
-                                   firestore.collection("users-cart")
-                                         .doc(email)
-                                         .collection("items")
-                                         .doc(data.id)
-                                         .delete();
-                                   },
-                                   trailing: Row(mainAxisSize: MainAxisSize.min,mainAxisAlignment:MainAxisAlignment.spaceBetween,children: [
-                                     Text('Total = ${data["totalPrice"].toString()}\$'),
-                                     Image.network(data['image']),
-                                   ],),
-                                   title: Text(data["name"]),
-                                   subtitle: Text('${data["quantity"].toString()} KG'),
-                                 ));
-                               });
-                             }
-                             else{
-                               return const Center(child: CircularProgressIndicator(),);
-                             }
-                            })
+                  })
                   ),
                   Row(
                     children: [

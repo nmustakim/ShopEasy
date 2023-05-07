@@ -5,13 +5,15 @@ ProductModel ProductModelFromJson(String str) => ProductModel.fromJson(json.deco
 String ProductModelToJson(ProductModel data) => json.encode(data.toJson());
 
 class ProductModel {
-  ProductModel({
+  ProductModel( {
     required this.image,
     required this.id,
     required this.name,
     required this.price,
     required this.description,
-    required this.isFav
+    required this.isFav,
+    this.quantity
+
 
   });
 
@@ -21,12 +23,16 @@ class ProductModel {
   String id;
   String description;
   bool isFav;
+  int? quantity;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) => ProductModel(
     id: json["id"],
     image: json["image"],
     price: json["price"],
-    name: json["name"], description: json['description'], isFav: false,
+    name: json["name"], description: json['description'],
+    isFav: false,
+    quantity: json["quantity"]
+
   );
 
   Map<String, dynamic> toJson() => {
@@ -35,8 +41,21 @@ class ProductModel {
     "name": name,
     "price": price,
     "description":description,
-    "isFav":isFav
+    "isFav":isFav,
+    "quantity":quantity,
   };
+  ProductModel copyWith({
+    int? quantity,
+  }) =>
+      ProductModel(
+        id: id,
+        name: name,
+        description: description,
+        image: image,
+        isFav: isFav,
+        quantity: quantity ?? this.quantity,
+        price: price,
+      );
 
 
 }
