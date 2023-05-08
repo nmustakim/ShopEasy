@@ -17,4 +17,16 @@ class ShopProvider with ChangeNotifier{
   }
 
   List<ProductModel> get getCartProductList => _cartProducts;
+  void updateQty(ProductModel productModel, int qty) {
+    int index = _cartProducts.indexOf(productModel);
+    _cartProducts[index].quantity = qty;
+    notifyListeners();
+  }
+  void updateQuantity(ProductModel productModel, int qty) {
+    int index = _cartProducts.indexOf(productModel);
+    _cartProducts[index].quantity = qty;
+    notifyListeners();
+  }
+
+
 }

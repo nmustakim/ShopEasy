@@ -35,7 +35,6 @@ class FireStoreHelper{
       List<ProductModel> categoriesList = querySnapshot.docs
           .map((e) => ProductModel.fromJson(e.data()))
           .toList();
-print(categoriesList);
       return categoriesList;
     } catch (e) {
       Fluttertoast.showToast(msg: e.toString());
