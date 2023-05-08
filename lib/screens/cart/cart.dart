@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shopeasy/models/product.dart';
 import 'package:shopeasy/screens/cart/widgets/cart_product_card.dart';
 import 'package:shopeasy/shop_provider/shop_provider.dart';
 import '../../constants.dart';

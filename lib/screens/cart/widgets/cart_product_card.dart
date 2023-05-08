@@ -36,57 +36,62 @@ quantity = widget.productModel.quantity!;
 
             ],
           ),
-          Row(
+          Container(
+height: 100,
+            width: 270,
+            decoration: const BoxDecoration(color:Colors.white,borderRadius: BorderRadius.only(bottomRight: Radius.circular(15),topRight: Radius.circular(15))),
+            child: Row(
 mainAxisAlignment: MainAxisAlignment.start,
-           children: [
-             Container(padding:const EdgeInsets.only(left: 8,right: 8),height: 50,child:Image.network(widget.productModel.image)),
+             children: [
+               Container(padding:const EdgeInsets.only(left: 8,right: 8),height: 50,child:Image.network(widget.productModel.image)),
 
-           Column(children: [
-             const SizedBox(height: 30,),
-             Text(widget.productModel.name,style: const TextStyle(fontSize:18,fontWeight: FontWeight.bold)),
-             Text("${widget.productModel.price} \$")
+             Column(children: [
+               const SizedBox(height: 30,),
+               Text(widget.productModel.name,style: const TextStyle(fontSize:18,fontWeight: FontWeight.bold)),
+               Text("${widget.productModel.price} \$")
 
-           ],),
-             const SizedBox(width: 8,),
-             InkWell(
-           onTap: () {
-             setState(() {
-               quantity++;
-             });
-             shopProvider.updateQuantity(widget.productModel, quantity);
-           },
-           child: const Icon(
-             Icons.add_circle,
-             size: 25,
-             color: Colors.red,
-           ),
-             ),
-             Padding(
-               padding: const EdgeInsets.only(left: 4,right: 4),
-               child: Text(quantity.toString(),style: const TextStyle(fontSize:18,fontWeight: FontWeight.bold),),
-             ),
-             InkWell(
-           onTap: () {
-             if (quantity >= 1) {
+             ],),
+               const SizedBox(width: 8,),
+               InkWell(
+             onTap: () {
                setState(() {
-                 quantity--;
+                 quantity++;
                });
                shopProvider.updateQuantity(widget.productModel, quantity);
-
-             }
-           },
-           child: const Icon(
-             Icons.remove_circle,
-             size: 25,
-             color: Colors.red,
-           ),
+             },
+             child: const Icon(
+               Icons.add_circle,
+               size: 25,
+               color: Colors.red,
              ),
+               ),
+               Padding(
+                 padding: const EdgeInsets.only(left: 4,right: 4),
+                 child: Text(quantity.toString(),style: const TextStyle(fontSize:18,fontWeight: FontWeight.bold),),
+               ),
+               InkWell(
+             onTap: () {
+               if (quantity >= 1) {
+                 setState(() {
+                   quantity--;
+                 });
+                 shopProvider.updateQuantity(widget.productModel, quantity);
+
+               }
+             },
+             child: const Icon(
+               Icons.remove_circle,
+               size: 25,
+               color: Colors.red,
+             ),
+               ),
 
 
 
 
 
-           ],
+             ],
+            ),
           ),
 
         ],
