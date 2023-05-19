@@ -37,6 +37,21 @@ class ShopProvider with ChangeNotifier{
     _cartProducts[index].quantity = qty;
     notifyListeners();
   }
+  final List<ProductModel> _favoriteProducts = [];
+
+
+  void addToFavorite(ProductModel pm) {
+_favoriteProducts.add(pm);
+notifyListeners();
+
+
+  }
+
+  void removeFavorite(ProductModel pm) {
+    _favoriteProducts.remove(pm);
+    notifyListeners();
+  }
+  List<ProductModel> get getFavoriteProductList => _favoriteProducts;
 
 
 }

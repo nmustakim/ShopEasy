@@ -44,11 +44,11 @@ class _ItemDetailsState extends State<ItemDetails> {
             children: [
               Image.network(
                 widget.product.image,
-                height: 200,
+                height: 150,
                 width: 420,
               ),
               Container(
-                margin: const EdgeInsets.fromLTRB(20, 200, 20, 15),
+                margin: const EdgeInsets.fromLTRB(20, 180, 20, 70),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(50),
                 ),
@@ -66,9 +66,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
+
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -76,10 +74,25 @@ class _ItemDetailsState extends State<ItemDetails> {
                               widget.product.name,
                               style: titleTextStyle1,
                             ),
-                            const Icon(
-                              Icons.favorite_outline,
-                              color: Colors.red,
-                            )
+                            IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  widget.product.isFav =
+                                  !widget.product.isFav;
+                                });
+                                if (widget.product.isFav) {
+                                  shopProvider.addToFavorite(widget.product);
+
+                                } else {
+                                  shopProvider.removeFavorite(widget.product);
+
+                                }
+                              },
+                              icon: Icon(color:Colors.red,shopProvider.getFavoriteProductList
+                                  .contains(widget.product)
+                                  ? Icons.favorite
+                                  : Icons.favorite_outline),
+                            ),
                           ],
                         ),
                         const SizedBox(
@@ -114,25 +127,16 @@ class _ItemDetailsState extends State<ItemDetails> {
                           ],
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 10,
                         ),
                         Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
                           children: [
-                            const Icon(
-                              Icons.star_rate_rounded,
-                              color: Colors.orangeAccent,
-                            ),
+
                             const SizedBox(
                               width: 5,
                             ),
-                            Text(
-                              "4.5",
-                              style: bodyTextStyle2,
-                            ),
-                            const SizedBox(
-                              width: 5,
-                            ),
-                            const Text("(420)"),
+
                             const Expanded(child: SizedBox()),
                             InkWell(
                               onTap: () {
@@ -170,7 +174,7 @@ class _ItemDetailsState extends State<ItemDetails> {
                           ],
                         ),
                         const SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
                         Text(
                           "Details",

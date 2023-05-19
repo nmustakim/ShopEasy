@@ -108,46 +108,49 @@ bool isLoading = false;
                   ),
                  const SizedBox(height: 15,),
                  popularProductsList.isEmpty ? const Center(child: Text("Popular products list is empty"),) : Expanded(
-                    child: GridView.builder(
-                        itemCount: popularProductsList.length,
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2),
-                        itemBuilder: (context, index) {
-                          ProductModel product = popularProductsList[index];
-                          return Card(
-                            elevation: 5,
-                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    child: Padding(
+                      padding: const EdgeInsets.only(bottom: 50),
+                      child: GridView.builder(
+                          itemCount: popularProductsList.length,
+                          gridDelegate:
+                              const SliverGridDelegateWithFixedCrossAxisCount(
+                                  crossAxisCount: 2),
+                          itemBuilder: (context, index) {
+                            ProductModel product = popularProductsList[index];
+                            return Card(
+                              elevation: 5,
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
 
-                            child: Container(color:Colors.white54,child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                              Center(child: Image.network(product.image,height: 70,)),
-                              const SizedBox(height: 8,),
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              child: Container(color:Colors.white54,child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
+                                Center(child: Image.network(product.image,height: 70,)),
+                                const SizedBox(height: 8,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
 
-                                Text(product.name),
-                                  Text("${product.price}\$"),
-                              ],),
-                              const SizedBox(height: 8,),
-
-
-
-                                SizedBox(height:20,child: OutlinedButton(onPressed: (){
-                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ItemDetails(product: product)));
-                                }, child: const Text('Buy')))
-
+                                  Text(product.name),
+                                    Text("${product.price}\$"),
+                                ],),
+                                const SizedBox(height: 8,),
 
 
 
+                                  SizedBox(height:20,child: OutlinedButton(onPressed: (){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>ItemDetails(product: product)));
+                                  }, child: const Text('Buy')))
 
-                            ],),),
-                          );
 
 
-                        }),
+
+
+                              ],),),
+                            );
+
+
+                          }),
+                    ),
                   ),
                 ],
               ),
