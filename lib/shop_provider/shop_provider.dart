@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../models/product.dart';
 
@@ -7,8 +8,17 @@ class ShopProvider with ChangeNotifier{
   
 
   void addProduct(ProductModel pm) {
-    _cartProducts.add(pm);
-    notifyListeners();
+    final itemIsExist  = _cartProducts.where((e)=> e.id == pm.id);
+    if(itemIsExist.isEmpty) {
+      _cartProducts.add(pm);
+      notifyListeners();
+      Fluttertoast.showToast(msg: "Item added");
+    }
+    else{
+      Fluttertoast.showToast(msg: "Already added");
+    }
+
+
   }
 
   void removeProduct(ProductModel pm) {

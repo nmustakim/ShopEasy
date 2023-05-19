@@ -20,10 +20,10 @@ class _BottomBarState extends State<BottomBar> {
   }
 
   int _selectedIndex = 0;
-  late final List<Widget> _widgetOptions = <Widget>[
+  final List<Widget> _widgetOptions = <Widget>[
     const Home(),
     const Cart(),
- Profile(),
+    const Profile(),
   ];
 
   void _onItemTapped(int index) {
@@ -32,7 +32,6 @@ class _BottomBarState extends State<BottomBar> {
     });
   }
 
-  // final controller = Get.put(SettingsController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(

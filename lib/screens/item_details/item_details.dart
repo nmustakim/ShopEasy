@@ -189,14 +189,17 @@ class _ItemDetailsState extends State<ItemDetails> {
                               child: BottomButton(
                                   buttonName: "Add to cart",
                                   onPressed: () {
-                                    if(quantity == 0){
+
+                                     if(quantity == 0){
                                       Fluttertoast.showToast(msg: "Choose quantity");
                                     }
                                     else {
+
                                       ProductModel pm = widget.product
                                           .copyWith(quantity: quantity);
                                       shopProvider.addProduct(pm);
-                                      Fluttertoast.showToast(msg: "Added!");
+
+
                                     }
 
                                   }),
