@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shopeasy/firebase_helpers/firestore_helper.dart';
 import 'package:shopeasy/screens/item_details/item_details.dart';
 import 'package:shopeasy/screens/product_by_category/products_by_categories.dart';
+import 'package:shopeasy/shop_provider/shop_provider.dart';
 import '../../models/categories.dart';
 import '../../models/product.dart';
 
@@ -19,6 +21,8 @@ bool isLoading = false;
 
   @override
   void initState() {
+    ShopProvider shopProvider = Provider.of<ShopProvider>(context,listen: false);
+    shopProvider.getUserInfoFirebase();
     getCategoryList();
     super.initState();
   }

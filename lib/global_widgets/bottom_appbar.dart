@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:shopeasy/screens/favorite/favorite_screen.dart';
-import '../screens/Profile/profile.dart';
+import 'package:shopeasy/screens/account_details/account_details.dart';
 import '../screens/cart/cart.dart';
 import '../screens/home/home.dart';
 
@@ -22,7 +22,7 @@ class BottomBarState extends State<BottomBar> {
         const Home(),
         const Cart(),
         const FavoriteScreen(),
-        const Profile(),
+        const AccountDetails(),
       ];
 
   List<PersistentBottomNavBarItem> _navBarsItems() => [

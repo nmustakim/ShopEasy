@@ -1,7 +1,15 @@
+import 'dart:io';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shopeasy/firebase_helpers/firebase_storage_helper.dart';
+import 'package:shopeasy/firebase_helpers/firestore_helper.dart';
 
+import '../constants.dart';
 import '../models/product.dart';
+import '../models/user.dart';
 
 class ShopProvider with ChangeNotifier{
   final List<ProductModel> _cartProducts = [];
@@ -52,6 +60,40 @@ notifyListeners();
     notifyListeners();
   }
   List<ProductModel> get getFavoriteProductList => _favoriteProducts;
+  UserModel? _userModel;
+  UserModel get getUserInformation => _userModel!;
+  void getUserInfoFirebase() async {
+    _userModel = await FireStoreHelper.fireStoreHelper.getUser();
+    notifyListeners();
+  }
+  void updateUserInfoFirebase(
+      BuildContext context, UserModel userModel, File? file) async {
+    if (file == null) {
+      showLoaderDialog(context);
 
+      _userModel = userModel;
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(_userModel!.id)
+          .set(_userModel!.toJson());
+      Navigator.of(context, rootNavigator: true).pop();
+      Navigator.of(context).pop();
+    } else {
+      showLoaderDialog(context);
+
+      String imageUrl =
+      await FirebaseStorageHelper.instance.uploadUserImage(file);
+      _userModel = userModel.copyWith(image: imageUrl);
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(_userModel!.id)
+          .set(_userModel!.toJson());
+      Navigator.of(context, rootNavigator: true).pop();
+      Navigator.of(context).pop();
+    }
+   Fluttertoast.showToast(msg: "Updated!");
+
+    notifyListeners();
+  }
 
 }

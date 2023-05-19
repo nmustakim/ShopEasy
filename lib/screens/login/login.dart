@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shopeasy/screens/forgot_password/forgot_password.dart';
-import 'package:shopeasy/screens/home/home.dart';
 import '../../constants.dart';
 import '../../firebase_helpers/firebaseAuth_helper.dart';
 import '../../global_widgets/bottomButton.dart';
@@ -66,7 +65,7 @@ class _LoginState extends State<Login> {
     return ReusableBodyPart(
          topMargin: 120,
         childWidget: Padding(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: Column(
 
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -115,7 +114,7 @@ bool isValidated = loginVaildation(emailController!.text, passwordController!.te
 if(isValidated == true){
   bool isLoggedIn = await FirebaseAuthHelper.firebaseAuthHelper.login(emailController!.text, passwordController!.text, context);
   if(isLoggedIn == true){
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>BottomBar()), (route) => false);
+    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const BottomBar()), (route) => false);
   }
 }
 
