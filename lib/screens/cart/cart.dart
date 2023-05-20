@@ -67,7 +67,12 @@ class _CartState extends State<Cart> {
                   children: [
                     Expanded(
                       child: BottomButton(
-                          buttonName: 'Checkout', onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>const CheckoutScreen()));}),
+                          buttonName: 'Checkout', onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context){
+                            shopProvider.getOrderedProducts.clear();
+                            shopProvider.orderMultiProduct();
+                            shopProvider.getCartProductList.clear();
+
+                            return const CheckoutScreen();}));}),
                     ),
                   ],
                 )

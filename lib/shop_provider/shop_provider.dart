@@ -107,8 +107,8 @@ class ShopProvider with ChangeNotifier {
     notifyListeners();
 
   }
-  void orderMultiProduct(List <ProductModel> pl ){
-    _orderedProducts.addAll(pl);
+  void orderMultiProduct( ){
+    _orderedProducts.addAll(_cartProducts);
     notifyListeners();
 
   }
