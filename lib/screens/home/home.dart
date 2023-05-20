@@ -151,7 +151,7 @@ class _HomeState extends State<Home> {
                   ? const Padding(
                 padding: EdgeInsets.only(top: 12.0, left: 12.0),
                 child: Text(
-                  "Best Products",
+                  "Popular Products",
                   style: TextStyle(
                     fontSize: 18.0,
                     fontWeight: FontWeight.bold,
