@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shopeasy/screens/cart/widgets/cart_product_card.dart';
 import 'package:shopeasy/shop_provider/shop_provider.dart';
@@ -6,7 +7,7 @@ import '../../constants.dart';
 import '../../global_widgets/bottomButton.dart';
 import '../../global_widgets/bottom_appbar.dart';
 import '../checkout_screen/check_out_cart.dart';
-import '../checkout_screen/single_checkout.dart';
+
 
 class Cart extends StatefulWidget {
    const Cart({super.key});
@@ -17,6 +18,7 @@ class Cart extends StatefulWidget {
 }
 
 class _CartState extends State<Cart> {
+
   @override
   Widget build(BuildContext context) {
     ShopProvider shopProvider = Provider.of<ShopProvider>(context);
@@ -67,12 +69,22 @@ class _CartState extends State<Cart> {
                   children: [
                     Expanded(
                       child: BottomButton(
-                          buttonName: 'Checkout', onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context){
-                            shopProvider.getOrderedProducts.clear();
-                            shopProvider.orderMultiProduct();
-                            shopProvider.getCartProductList.clear();
+                          buttonName: 'Checkout', onPressed: () {
+                        shopProvider.getOrderedProducts.clear();
+                        shopProvider.orderMultiProduct();
+                        shopProvider.getCartProductList.clear();
+                        if (shopProvider.getOrderedProducts.isEmpty) {
+                          Fluttertoast.showToast(msg: "Cart is empty");
+                        } else {
+                          Navigator.push(context, MaterialPageRoute(
+                              builder: (context) {
+                                return const CheckoutScreen();
+                              }
 
-                            return const CheckoutScreen();}));}),
+                          ));
+                        }
+                      }
+    ),
                     ),
                   ],
                 )

@@ -4,10 +4,12 @@ import 'package:shopeasy/global_widgets/bottomButton.dart';
 
 import '../../firebase_helpers/firestore_helper.dart';
 import '../../global_widgets/bottom_appbar.dart';
+
 import '../../shop_provider/shop_provider.dart';
 
 
 class CheckoutScreen extends StatefulWidget {
+
   const CheckoutScreen({super.key});
 
 
