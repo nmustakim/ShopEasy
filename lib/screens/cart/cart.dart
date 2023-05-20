@@ -5,7 +5,8 @@ import 'package:shopeasy/shop_provider/shop_provider.dart';
 import '../../constants.dart';
 import '../../global_widgets/bottomButton.dart';
 import '../../global_widgets/bottom_appbar.dart';
-import '../checkout_screen/checkout_screen.dart';
+import '../checkout_screen/check_out_cart.dart';
+import '../checkout_screen/single_checkout.dart';
 
 class Cart extends StatefulWidget {
    const Cart({super.key});
@@ -54,6 +55,14 @@ class _CartState extends State<Cart> {
                         return CartProductCard(productModel:shopProvider.getCartProductList[index],);
                       }),
                 ),
+                const SizedBox(height: 12,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                  Text("Total",style: titleTextStyle3,),
+                  Text(shopProvider.cartProductsTotalPrice().toString(),style: titleTextStyle3,)
+                ],),
+                const SizedBox(height: 12,),
                 Row(
                   children: [
                     Expanded(

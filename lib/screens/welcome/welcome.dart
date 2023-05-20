@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:shopeasy/global_widgets/bottomButton.dart';
 import 'package:shopeasy/screens/registration/registration.dart';
 
-import 'login/login.dart';
+import '../login/login.dart';
 
 class Welcome extends StatefulWidget {
   const Welcome({Key? key}) : super(key: key);

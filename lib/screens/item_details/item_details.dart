@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shopeasy/models/product.dart';
+import 'package:shopeasy/screens/checkout_screen/single_checkout.dart';
 import '../../constants.dart';
 import '../../global_widgets/bottomButton.dart';
 import '../../shop_provider/shop_provider.dart';
@@ -202,6 +203,26 @@ class _ItemDetailsState extends State<ItemDetails> {
                                       ProductModel pm = widget.product
                                           .copyWith(quantity: quantity);
                                       shopProvider.addProduct(pm);
+
+
+                                    }
+
+                                  }),
+                            ),
+                            SizedBox(width: 20,),
+
+                            Expanded(
+                              child: BottomButton(
+                                  buttonName: "Buy",
+                                  onPressed: () {
+
+                                    if(quantity == 0){
+                                      Fluttertoast.showToast(msg: "Choose quantity");
+                                    }
+                                    else {
+                                      ProductModel pm = widget.product
+                                          .copyWith(quantity: quantity);
+                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SingleCheckoutScreen(productModel: pm)));
 
 
                                     }

@@ -1,25 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:shopeasy/firebase_helpers/firestore_helper.dart';
 import 'package:shopeasy/global_widgets/bottomButton.dart';
+import 'package:shopeasy/models/product.dart';
+
+import '../../global_widgets/bottom_appbar.dart';
+import '../../shop_provider/shop_provider.dart';
 
 
-class CheckoutScreen extends StatefulWidget {
-  const CheckoutScreen({super.key});
+class SingleCheckoutScreen extends StatefulWidget {
+ final ProductModel productModel;
+
+  const SingleCheckoutScreen({super.key, required this.productModel});
 
   @override
-  State<CheckoutScreen> createState() => _CheckoutScreenState();
+  State<SingleCheckoutScreen> createState() => _SingleCheckoutScreenState();
 }
 
-class _CheckoutScreenState extends State<CheckoutScreen> {
+class _SingleCheckoutScreenState extends State<SingleCheckoutScreen> {
   int groupValue = 1;
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context)
+  {
+    ShopProvider shopProvider = Provider.of<ShopProvider>(context);
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
           centerTitle: true,
           title: const Text(
-            "CheckoutScreen",
+            "SingleCheckoutScreen",
             style: TextStyle(
               color: Colors.black,
             ),
@@ -87,11 +97,29 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   const SizedBox(
                     width: 12.0,
                   ),
+                  const Text(
+                    "Online payment",
+                    style: TextStyle(
+                      fontSize: 18.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
                 ])),
            const SizedBox(height: 20,),
            Row(
              children: [
-               Expanded(child: BottomButton(buttonName: "Continue", onPressed: (){})),
+               Expanded(child: BottomButton(buttonName: "Continue", onPressed: ()async {
+                 shopProvider.getOrderedProducts.clear();
+                 shopProvider.orderProduct(widget.productModel);
+                bool isTrue = await FireStoreHelper.fireStoreHelper.orderToFirebase(shopProvider.getOrderedProducts, context,groupValue==1? "COD": "PO");
+                if(isTrue){
+                  Future.delayed(const Duration(seconds: 2), () {
+
+                    Navigator.push(context,MaterialPageRoute(builder: (context)=>const BottomBar()));
+                  });
+
+                }
+               })),
              ],
            )
           ]),

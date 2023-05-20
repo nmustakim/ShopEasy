@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:shopeasy/firebase_helpers/firebaseAuth_helper.dart';
 import 'package:shopeasy/screens/home/home.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:shopeasy/screens/welcome.dart';
+import 'package:shopeasy/screens/welcome/welcome.dart';
 import 'package:shopeasy/shop_provider/shop_provider.dart';
 import 'firebase_options.dart';
 import 'global_widgets/bottom_appbar.dart';

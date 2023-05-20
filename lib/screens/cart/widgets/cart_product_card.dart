@@ -71,8 +71,7 @@ class _CartProductCardState extends State<CartProductCard> {
                     Text(widget.productModel.name,
                         style: const TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold)),
-                    Text("${widget.productModel.price}×${widget.productModel.quantity} \$"),
-                    Text("Total=${widget.productModel.price*widget.productModel.quantity} \$")
+                    Text("${widget.productModel.price} \$"),
                   ],
                 ),
                 const SizedBox(
