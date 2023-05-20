@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shopeasy/global_widgets/bottomButton.dart';
+
+import '../../firebase_helpers/firestore_helper.dart';
+import '../../global_widgets/bottom_appbar.dart';
+import '../../shop_provider/shop_provider.dart';
 
 
 class CheckoutScreen extends StatefulWidget {
@@ -17,6 +22,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   int groupValue = 1;
   @override
   Widget build(BuildContext context) {
+    ShopProvider shopProvider = Provider.of<ShopProvider>(context);
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
@@ -95,7 +101,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             const SizedBox(height: 20,),
             Row(
               children: [
-                Expanded(child: BottomButton(buttonName: "Continue", onPressed: (){})),
+                Expanded(child: BottomButton(buttonName: "Continue", onPressed: ()async {
+
+    bool isTrue = await FireStoreHelper.fireStoreHelper.orderToFirebase(shopProvider.getOrderedProducts, context,groupValue==1? "COD": "PO");
+    if(isTrue){
+    Future.delayed(const Duration(seconds: 2), () {
+
+    Navigator.push(context,MaterialPageRoute(builder: (context)=>const BottomBar()));
+    });
+
+    }
+    })),
               ],
             )
           ]),

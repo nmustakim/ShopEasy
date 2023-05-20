@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shopeasy/constants.dart';
+import 'package:shopeasy/models/order.dart';
 
 import '../models/categories.dart';
 import '../models/product.dart';
@@ -12,6 +13,7 @@ class FireStoreHelper{
 
   static FireStoreHelper fireStoreHelper = FireStoreHelper();
   final _firestore = FirebaseFirestore.instance;
+  final uid = FirebaseAuth.instance.currentUser!.uid;
 
   Future<List<CategoryModel>> getCategories() async {
     try {
@@ -78,7 +80,7 @@ showLoaderDialog(context);
 
 DocumentReference documentReference = _firestore
     .collection("usersOrders")
-    .doc(FirebaseAuth.instance.currentUser!.uid)
+    .doc(uid)
     .collection("orders")
     .doc();
 
@@ -101,5 +103,21 @@ DocumentReference documentReference = _firestore
 
     }
 
+  }
+  Future <List<OrderModel>> getOrderFromFirebase()async{
+
+   try {
+     QuerySnapshot<Map<String, dynamic>> querySnapshot =
+     await  _firestore.collection("usersOrders").doc(uid).collection("orders").get();
+
+     List<OrderModel> ordersList = querySnapshot.docs
+         .map((e) => OrderModel.fromJson(e.data()))
+         .toList();
+
+     return ordersList ;
+   } catch (e) {
+     Fluttertoast.showToast(msg: e.toString());
+     return [];
+   }
   }
 }

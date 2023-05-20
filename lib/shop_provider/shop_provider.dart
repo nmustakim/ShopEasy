@@ -102,8 +102,13 @@ class ShopProvider with ChangeNotifier {
     return totalPrice;
   }
   List <ProductModel> get getOrderedProducts => _orderedProducts;
-  void orderProduct(ProductModel pm){
+  void orderSingleProduct(ProductModel pm){
     _orderedProducts.add(pm);
+    notifyListeners();
+
+  }
+  void orderMultiProduct(List <ProductModel> pl ){
+    _orderedProducts.addAll(pl);
     notifyListeners();
 
   }

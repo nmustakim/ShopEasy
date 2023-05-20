@@ -4,6 +4,7 @@ import 'package:shopeasy/screens/favorite/favorite_screen.dart';
 import 'package:shopeasy/screens/account_details/account_details.dart';
 import '../screens/cart/cart.dart';
 import '../screens/home/home.dart';
+import '../screens/order_screen/order_screen.dart';
 
 class BottomBar extends StatefulWidget {
   const BottomBar({
@@ -21,7 +22,7 @@ class BottomBarState extends State<BottomBar> {
   List<Widget> _buildScreens() => [
         const Home(),
         const Cart(),
-        const FavoriteScreen(),
+        const OrderScreen(),
         const AccountDetails(),
       ];
 
@@ -41,9 +42,9 @@ class BottomBarState extends State<BottomBar> {
           inactiveColorPrimary: Colors.white,
         ),
         PersistentBottomNavBarItem(
-          icon: const Icon(Icons.favorite_rounded),
-          inactiveIcon: const Icon(Icons.favorite_outlined),
-          title: "Favorites",
+          icon:  Image.asset("assets/images/shopping_bag.png"),
+          inactiveIcon:Image.asset("assets/images/shopping_bag.png"),
+          title: "Orders",
           activeColorPrimary: Colors.white,
           inactiveColorPrimary: Colors.white,
         ),
