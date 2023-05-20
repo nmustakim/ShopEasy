@@ -109,9 +109,10 @@ class _SingleCheckoutScreenState extends State<SingleCheckoutScreen> {
            Row(
              children: [
                Expanded(child: BottomButton(buttonName: "Continue", onPressed: ()async {
-                 shopProvider.getOrderedProducts.clear();
+
                  shopProvider.orderSingleProduct(widget.productModel);
                 bool isTrue = await FireStoreHelper.fireStoreHelper.orderToFirebase(shopProvider.getOrderedProducts, context,groupValue==1? "COD": "PO");
+                 shopProvider.getOrderedProducts.clear();
                 if(isTrue){
                   Future.delayed(const Duration(seconds: 2), () {
 

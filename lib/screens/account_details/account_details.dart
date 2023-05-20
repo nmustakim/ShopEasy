@@ -9,6 +9,7 @@ import '../../global_widgets/bottomButton.dart';
 import '../../shop_provider/shop_provider.dart';
 import '../change_password/change_password.dart';
 import '../checkout_screen/check_out_cart.dart';
+import '../order_screen/order_screen.dart';
 
 
 class AccountDetails extends StatefulWidget {
@@ -80,7 +81,7 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=>const EditProfile(
               children: [
                 ListTile(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const CheckoutScreen()));
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const OrderScreen()));
 
                   },
                   leading: const Icon(Icons.shopping_bag_outlined),

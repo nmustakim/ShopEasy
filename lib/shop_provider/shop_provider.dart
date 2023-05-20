@@ -14,6 +14,11 @@ class ShopProvider with ChangeNotifier {
   final List<ProductModel> _cartProducts = [];
   final List<ProductModel> _favoriteProducts = [];
   final List<ProductModel> _orderedProducts = [];
+   List<ProductModel> popularProducts = [];
+  void getPopularProducts()async{
+    popularProducts = await FireStoreHelper.fireStoreHelper.getPopular();
+    notifyListeners();
+  }
 
   void addProduct(ProductModel pm) {
     final itemIsExist = _cartProducts.where((e) => e.id == pm.id);

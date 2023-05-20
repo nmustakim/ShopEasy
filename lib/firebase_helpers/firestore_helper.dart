@@ -83,6 +83,15 @@ DocumentReference documentReference = _firestore
     .doc(uid)
     .collection("orders")
     .doc();
+DocumentReference admin = _firestore.collection("orders").doc();
+
+admin.set({
+  "products": list.map((e) => e.toJson()),
+  "status": "Pending",
+  "totalPrice": totalPrice,
+  "payment": payment,
+  "orderId": admin.id,
+});
 
  await documentReference.set({
    "products": list.map((e) => e.toJson()).toList(),
