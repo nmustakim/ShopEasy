@@ -37,7 +37,6 @@ class _HomeState extends State<Home> {
     categoriesList = await FireStoreHelper.fireStoreHelper.getCategories();
     popularProductsList = await FireStoreHelper.fireStoreHelper.getPopular();
 
-    popularProductsList.shuffle();
     if (mounted) {
       setState(() {
         isLoading = false;
@@ -47,12 +46,13 @@ class _HomeState extends State<Home> {
 
   TextEditingController searchController = TextEditingController();
   List<ProductModel> searchList = [];
-  void searchProducts(String value) {
-    searchList = popularProductsList
+  void runFilter(String value) {
+    setState((){  searchList = popularProductsList
         .where((element) =>
         element.name.toLowerCase().contains(value.toLowerCase()))
-        .toList();
-    setState(() {});
+        .toList();});
+
+
   }
 
   @override
@@ -81,9 +81,7 @@ class _HomeState extends State<Home> {
                       height: 40,
                       child: TextField(
                         textAlign: TextAlign.center,
-                        onChanged: (v) {
-                          searchProducts(v);
-                        },
+                        onChanged: (v) =>runFilter(v),
                         controller: searchController,
                         decoration: InputDecoration(
                             filled: true,
