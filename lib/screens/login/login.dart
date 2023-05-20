@@ -17,6 +17,7 @@ class Login extends StatefulWidget {
 }
 
 class _LoginState extends State<Login> {
+  bool isObscure = true;
 
   TextEditingController? emailController;
   TextEditingController? passwordController;
@@ -94,9 +95,13 @@ class _LoginState extends State<Login> {
 
               SizedBox(height: 50,
                   child: TextField(
-                      obscureText: true,
+
+                      obscureText: isObscure,
                       controller: passwordController,
                       decoration: InputDecoration(
+                        suffixIcon: InkWell(onTap:(){setState(() {
+                          isObscure = !isObscure;
+                        });},child: const Icon(Icons.remove_red_eye_sharp)),
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(

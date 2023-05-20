@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopeasy/screens/checkout_screen/checkout_screen.dart';
 import 'package:shopeasy/screens/edit_profile/edit_profile.dart';
+import 'package:shopeasy/screens/favorite/favorite_screen.dart';
 
 import '../../firebase_helpers/firebaseAuth_helper.dart';
 import '../../global_widgets/bottomButton.dart';
 import '../../shop_provider/shop_provider.dart';
+import '../change_password/change_password.dart';
 
 
 class AccountDetails extends StatefulWidget {
@@ -39,49 +42,44 @@ class _AccountDetailsState extends State<AccountDetails> {
       ),
       body: Column(
         children: [
-          Expanded(
-            child: Column(
-              children: [
-                 shopProvider.getUserInformation.image == null
-                    ? const Icon(
-                  Icons.person_outline,
-                  size: 120,
-                )
-                    : CircleAvatar(
-                  backgroundImage:
-                  NetworkImage(shopProvider.getUserInformation.image!),
-                  radius: 60,
-                ),
-                Text(
-                  shopProvider.getUserInformation.name,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Text(
-                  shopProvider.getUserInformation.email,
-                ),
-                const SizedBox(
-                  height: 8.0,
-                ),
-                SizedBox(
-                  height: 25,
-                  child: BottomButton(
-                    onPressed: () {
+          shopProvider.getUserInformation.image == null
+             ? const Icon(
+           Icons.person_outline,
+           size: 120,
+              )
+             : CircleAvatar(
+           backgroundImage:
+           NetworkImage(shopProvider.getUserInformation.image!),
+           radius: 60,
+              ),
+              Text(
+           shopProvider.getUserInformation.name,
+           style: const TextStyle(
+             fontSize: 18,
+             fontWeight: FontWeight.bold,
+           ),
+              ),
+              Text(
+           shopProvider.getUserInformation.email,
+              ),
+              const SizedBox(
+           height: 8.0,
+              ),
+              SizedBox(
+           height: 20,
+           child: BottomButton(
+             onPressed: () {
 Navigator.push(context, MaterialPageRoute(builder: (context)=>const EditProfile()));
-                    }, buttonName: 'Edit Profile',
-                  ),
-                )
-              ],
-            ),
-          ),
+             }, buttonName: 'Edit Profile',
+           ),
+              ),
           Expanded(
             flex: 2,
             child: Column(
               children: [
                 ListTile(
                   onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const CheckoutScreen()));
 
                   },
                   leading: const Icon(Icons.shopping_bag_outlined),
@@ -89,7 +87,7 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=>const EditProfile(
                 ),
                 ListTile(
                   onTap: () {
-
+Navigator.push(context, MaterialPageRoute(builder: (context)=>const FavoriteScreen()));
                   },
                   leading: const Icon(Icons.favorite_outline),
                   title: const Text("Favourite"),
@@ -103,7 +101,7 @@ Navigator.push(context, MaterialPageRoute(builder: (context)=>const EditProfile(
                 ),
                 ListTile(
                   onTap: () {
-
+                    Navigator.push(context, MaterialPageRoute(builder: (context)=>const ChangePassword()));
                   },
                   leading: const Icon(Icons.change_circle_outlined),
                   title: const Text("Change Password"),

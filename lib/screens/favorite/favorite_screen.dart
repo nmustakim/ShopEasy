@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:shopeasy/screens/checkout_screen/checkout_screen.dart';
 import 'package:shopeasy/screens/favorite/widgets/favorite_card.dart';
 import '../../constants.dart';
 import '../../global_widgets/bottomButton.dart';
@@ -38,7 +39,7 @@ class FavoriteScreen extends StatelessWidget {
                     children: [
                       Expanded(
                         child: BottomButton(
-                            buttonName: 'Checkout', onPressed: () {}),
+                            buttonName: 'Checkout', onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>const CheckoutScreen()));}),
                       ),
                     ],
                   )

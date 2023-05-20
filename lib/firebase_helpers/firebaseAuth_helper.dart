@@ -27,16 +27,33 @@ class FirebaseAuthHelper {
     await _firebaseAuth.signOut();
   }
   Future<bool> signUp(
-      String name, String email, String password, BuildContext context) async {
+      String name, String email,String age,String phone,  String password, BuildContext context) async {
     try {
       showLoaderDialog(context);
       UserCredential userCredential = await _firebaseAuth
           .createUserWithEmailAndPassword(email: email, password: password);
       UserModel userModel = UserModel(
-          id: userCredential.user!.uid, name: name, email: email, image: null, age: "", phone: "");
+          id: userCredential.user!.uid, name: name, email: email, image: null, age: age, phone:phone);
 
       _firestore.collection("users").doc(userModel.id).set(userModel.toJson());
       Navigator.of(context,rootNavigator: true).pop();
+      return true;
+    } on FirebaseAuthException catch (error) {
+      Navigator.of(context,rootNavigator: true).pop();
+      Fluttertoast.showToast(msg: error.code.toString());
+      return false;
+    }
+  }
+  Future<bool> changePassword(
+      String password, BuildContext context) async {
+    try {
+      showLoaderDialog(context);
+      _firebaseAuth.currentUser!.updatePassword(password);
+
+      Navigator.of(context,rootNavigator: true).pop();
+      Fluttertoast.showToast(msg: "Password Changed");
+      Navigator.of(context).pop();
+
       return true;
     } on FirebaseAuthException catch (error) {
       Navigator.of(context,rootNavigator: true).pop();

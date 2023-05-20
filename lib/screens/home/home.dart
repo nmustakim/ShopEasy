@@ -34,9 +34,13 @@ bool isLoading = false;
    categoryProductsList.shuffle();
    popularProductsList = await FireStoreHelper.fireStoreHelper.getPopular();
    popularProductsList.shuffle();
-    setState(() {
-      isLoading = false;
-    });
+
+    if (mounted) {
+      setState(() {
+        isLoading = false;
+      });
+    }
+
   }
 
 

@@ -18,7 +18,7 @@ class _EditProfileState extends State<EditProfile> {
   File? image;
   void addImage() async {
     XFile? value = await ImagePicker()
-        .pickImage(source: ImageSource.gallery, imageQuality: 40);
+        .pickImage(source: ImageSource.gallery, );
     if (value != null) {
       setState(() {
         image = File(value.path);
@@ -26,15 +26,16 @@ class _EditProfileState extends State<EditProfile> {
     }
   }
 
-  TextEditingController nameController = TextEditingController();
-  TextEditingController phoneController = TextEditingController();
-  TextEditingController ageController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     ShopProvider shopProvider = Provider.of<ShopProvider>(
       context,
     );
+
+    TextEditingController nameController = TextEditingController(text: shopProvider.getUserInformation.name);
+    TextEditingController phoneController = TextEditingController(text: shopProvider.getUserInformation.phone);
+    TextEditingController ageController = TextEditingController(text: shopProvider.getUserInformation.age);
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
@@ -101,7 +102,7 @@ class _EditProfileState extends State<EditProfile> {
           ),
           BottomButton(
            buttonName: "Update",
-            onPressed: () async {
+            onPressed: () {
               UserModel userModel = shopProvider.getUserInformation
                   .copyWith(name: nameController.text,phone:phoneController.text,age:ageController.text,);
               shopProvider.updateUserInfoFirebase(context, userModel, image);

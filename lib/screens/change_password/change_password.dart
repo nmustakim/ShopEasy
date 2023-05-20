@@ -1,5 +1,7 @@
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shopeasy/firebase_helpers/firebaseAuth_helper.dart';
 import 'package:shopeasy/screens/login/login.dart';
 import '../../constants.dart';
 import '../../global_widgets/bottomButton.dart';
@@ -16,6 +18,7 @@ class ChangePassword extends StatefulWidget {
 class _ChangePasswordState extends State<ChangePassword> {
   TextEditingController? changePasswordController;
   TextEditingController? confirmPasswordController;
+  bool isObscure = true;
   @override
   void initState() {
     changePasswordController = TextEditingController();
@@ -39,8 +42,12 @@ class _ChangePasswordState extends State<ChangePassword> {
 
           SizedBox(height: 50,
               child: TextField(
+                obscureText: isObscure,
                   controller: changePasswordController,
                   decoration: InputDecoration(
+                      suffixIcon: InkWell(onTap:(){setState(() {
+                        isObscure = !isObscure;
+                      });},child: const Icon(Icons.remove_red_eye_sharp)),
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -54,6 +61,9 @@ class _ChangePasswordState extends State<ChangePassword> {
               child: TextField(
                   controller: confirmPasswordController,
                   decoration: InputDecoration(
+                      suffixIcon: InkWell(onTap:(){setState(() {
+                        isObscure = !isObscure;
+                      });},child: const Icon(Icons.remove_red_eye_sharp)),
                       filled: true,
                       fillColor: Colors.white,
                       border: OutlineInputBorder(
@@ -63,7 +73,17 @@ class _ChangePasswordState extends State<ChangePassword> {
           const SizedBox(height: 25,),
         Row(
           children: [
-            Expanded(child: BottomButton(buttonName: 'Reset password', onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));})),
+            Expanded(child: BottomButton(buttonName: 'Reset password', onPressed: (){if(changePasswordController!.text == confirmPasswordController!.text){
+              try {
+                FirebaseAuthHelper.firebaseAuthHelper.changePassword(
+                    confirmPasswordController!.text, context);
+              }
+              catch(error){
+                Fluttertoast.showToast(msg: error.toString());
+              }
+            }
+            else{Fluttertoast.showToast(msg: "Password doesn't match");}
+            })),
           ],
         )
 

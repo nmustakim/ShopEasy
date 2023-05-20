@@ -5,6 +5,7 @@ import 'package:shopeasy/shop_provider/shop_provider.dart';
 import '../../constants.dart';
 import '../../global_widgets/bottomButton.dart';
 import '../../global_widgets/bottom_appbar.dart';
+import '../checkout_screen/checkout_screen.dart';
 
 class Cart extends StatefulWidget {
    const Cart({super.key});
@@ -57,7 +58,7 @@ class _CartState extends State<Cart> {
                   children: [
                     Expanded(
                       child: BottomButton(
-                          buttonName: 'Checkout', onPressed: () {}),
+                          buttonName: 'Checkout', onPressed: () {Navigator.push(context, MaterialPageRoute(builder: (context)=>const CheckoutScreen()));}),
                     ),
                   ],
                 )

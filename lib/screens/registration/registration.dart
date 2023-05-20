@@ -21,8 +21,9 @@ class _RegistrationState extends State<Registration> {
   TextEditingController? passwordController;
   TextEditingController? nameController;
   TextEditingController? phoneController;
+  TextEditingController? ageController;
 
-
+bool isObscure = true;
   bool? isChecked;
   @override
   void initState() {
@@ -30,6 +31,7 @@ class _RegistrationState extends State<Registration> {
   nameController = TextEditingController();
  phoneController = TextEditingController();
     emailController = TextEditingController();
+    ageController = TextEditingController();
     passwordController = TextEditingController();
     
     super.initState();
@@ -100,11 +102,14 @@ class _RegistrationState extends State<Registration> {
             ),
            SizedBox(height: 50,
                child: TextField(
-                 obscureText: true
-                   ,
+                 obscureText: isObscure,
+
                  controller: passwordController,
                  decoration: InputDecoration(
                      hintText: "Password",
+                     suffixIcon: InkWell(onTap:(){setState(() {
+                       isObscure = !isObscure;
+                     });},child: const Icon(Icons.remove_red_eye_sharp)),
 
                    filled: true,
                    fillColor: Colors.white,
@@ -149,9 +154,9 @@ class _RegistrationState extends State<Registration> {
 
                     onPressed: ()  async{
                     
-bool isValidated = signUpVaildation(emailController!.text, passwordController!.text, nameController!.text, phoneController!.text);
+bool isValidated = signUpVaildation(  nameController!.text,emailController!.text, phoneController!.text,passwordController!.text);
 if(isValidated == true){
-  bool isLoggedIn = await FirebaseAuthHelper.firebaseAuthHelper.signUp(nameController!.text,emailController!.text, passwordController!.text, context);
+  bool isLoggedIn = await FirebaseAuthHelper.firebaseAuthHelper.signUp( nameController!.text,emailController!.text, ageController!.text,phoneController!.text,passwordController!.text,context);
   if(isLoggedIn == true){
     Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const BottomBar()), (route) => false);
   }

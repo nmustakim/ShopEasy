@@ -15,15 +15,22 @@ class _WelcomeState extends State<Welcome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(padding: const EdgeInsets.all(24),child: Center(
-        child: Column(
-mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-          SizedBox(width:300,child: BottomButton(buttonName: 'Login', onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));})),
-          SizedBox(height: 25,),
-          SizedBox(width:300,child: BottomButton(buttonName: 'SignUp', onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>const Registration()));}))
-        ],),
-      ),),
+      
+      body: Stack(
+        children: [
+          Image.asset("assets/images/shop.jpg",fit:BoxFit.fitHeight,height: MediaQuery.of(context).size.height,),
+          Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(width:300,child: BottomButton(buttonName: 'Login', onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>const Login()));})),
+                const SizedBox(height: 25,),
+                SizedBox(width:300,child: BottomButton(buttonName: 'SignUp', onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>const Registration()));}))
+              ],),
+          ),
+        ],
+ 
+      ),
     );
   }
 }

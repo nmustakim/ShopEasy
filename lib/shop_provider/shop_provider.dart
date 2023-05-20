@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shopeasy/firebase_helpers/firebase_storage_helper.dart';
@@ -66,6 +65,7 @@ notifyListeners();
     _userModel = await FireStoreHelper.fireStoreHelper.getUser();
     notifyListeners();
   }
+
   void updateUserInfoFirebase(
       BuildContext context, UserModel userModel, File? file) async {
     if (file == null) {
