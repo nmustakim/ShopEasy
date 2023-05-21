@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-import '../../global_widgets/bottomButton.dart';
+import '../../global_widgets/bottom_button.dart';
 import '../../models/user.dart';
 import '../../shop_provider/shop_provider.dart';
 

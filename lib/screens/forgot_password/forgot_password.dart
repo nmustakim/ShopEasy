@@ -1,9 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:shopeasy/screens/change_password/change_password.dart';
 import '../../constants.dart';
-import '../../global_widgets/bottomButton.dart';
-import '../registration/parts/reusable_part.dart';
+import '../../global_widgets/bottom_button.dart';
+import '../registration/widgets/reusable_part.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({Key? key}) : super(key: key);

@@ -2,10 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shopeasy/firebase_helpers/firebaseAuth_helper.dart';
-import 'package:shopeasy/screens/login/login.dart';
 import '../../constants.dart';
-import '../../global_widgets/bottomButton.dart';
-import '../registration/parts/reusable_part.dart';
+import '../../global_widgets/bottom_button.dart';
+import '../registration/widgets/reusable_part.dart';
 
 
 class ChangePassword extends StatefulWidget {
@@ -28,7 +27,7 @@ class _ChangePasswordState extends State<ChangePassword> {
   @override
   Widget build(BuildContext context) {
     return ReusableBodyPart(topMargin: 70, childWidget: Padding(
-      padding:   EdgeInsets.all(8),
+      padding:   const EdgeInsets.all(8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

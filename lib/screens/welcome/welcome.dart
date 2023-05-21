@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shopeasy/global_widgets/bottomButton.dart';
+import 'package:shopeasy/global_widgets/bottom_button.dart';
 import 'package:shopeasy/screens/registration/registration.dart';
 
 import '../login/login.dart';

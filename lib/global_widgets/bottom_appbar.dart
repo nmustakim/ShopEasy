@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-import 'package:shopeasy/screens/favorite/favorite_screen.dart';
 import 'package:shopeasy/screens/account_details/account_details.dart';
 import '../screens/cart/cart.dart';
 import '../screens/home/home.dart';
@@ -21,46 +20,61 @@ class BottomBarState extends State<BottomBar> {
 
   List<Widget> _buildScreens() => [
         const Home(),
-    const AccountDetails(),
+        const AccountDetails(),
         const Cart(),
         const OrderScreen(),
-
       ];
 
   List<PersistentBottomNavBarItem> _navBarsItems() => [
         PersistentBottomNavBarItem(
           contentPadding: 0,
-          icon: const Icon(Icons.home_outlined,size: 35,),
-          inactiveIcon: const Icon(Icons.home_filled,size: 35,),
+          icon: const Icon(
+            Icons.home_outlined,
+            size: 35,
+          ),
+          inactiveIcon: const Icon(
+            Icons.home_filled,
+            size: 35,
+          ),
           title: "Home",
           activeColorPrimary: Colors.black,
           inactiveColorPrimary: Colors.black,
         ),
-    PersistentBottomNavBarItem(
-      contentPadding: 0,
-      icon: const Icon(Icons.person_outline_sharp,size: 35,),
-      inactiveIcon: const Icon(Icons.person_sharp,size: 35,),
-      title: "Profile",
-      activeColorPrimary: Colors.black,
-      inactiveColorPrimary: Colors.black,
-    ),
         PersistentBottomNavBarItem(
           contentPadding: 0,
-
-          icon: const Icon(Icons.shopping_cart_outlined,size: 35,),
-          inactiveIcon: const Icon(Icons.shopping_cart,size: 35,),
+          icon: const Icon(
+            Icons.person_outline_sharp,
+            size: 35,
+          ),
+          inactiveIcon: const Icon(
+            Icons.person_sharp,
+            size: 35,
+          ),
+          title: "Profile",
+          activeColorPrimary: Colors.black,
+          inactiveColorPrimary: Colors.black,
+        ),
+        PersistentBottomNavBarItem(
+          contentPadding: 0,
+          icon: const Icon(
+            Icons.shopping_cart_outlined,
+            size: 35,
+          ),
+          inactiveIcon: const Icon(
+            Icons.shopping_cart,
+            size: 35,
+          ),
           title: "Cart",
           activeColorPrimary: Colors.black,
           inactiveColorPrimary: Colors.black,
         ),
         PersistentBottomNavBarItem(
-          icon:  Image.asset("assets/images/shopping_bag.png"),
-          inactiveIcon:Image.asset("assets/images/shopping_bag.png"),
+          icon: Image.asset("assets/images/shopping_bag.png"),
+          inactiveIcon: Image.asset("assets/images/shopping_bag.png"),
           title: "Orders",
           activeColorPrimary: Colors.black,
           inactiveColorPrimary: Colors.black,
         ),
-
       ];
 
   @override

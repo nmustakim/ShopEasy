@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:shopeasy/screens/forgot_password/forgot_password.dart';
 import '../../constants.dart';
 import '../../firebase_helpers/firebaseAuth_helper.dart';
-import '../../global_widgets/bottomButton.dart';
+import '../../global_widgets/bottom_button.dart';
 import '../../global_widgets/bottom_appbar.dart';
-import '../registration/parts/bottom_row.dart';
-import '../registration/parts/reusable_part.dart';
 import '../registration/registration.dart';
+import '../registration/widgets/bottom_row.dart';
+import '../registration/widgets/reusable_part.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -119,7 +119,11 @@ bool isValidated = loginVaildation(emailController!.text, passwordController!.te
 if(isValidated == true){
   bool isLoggedIn = await FirebaseAuthHelper.firebaseAuthHelper.login(emailController!.text, passwordController!.text, context);
   if(isLoggedIn == true){
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const BottomBar()), (route) => false);
+    Future.delayed(const Duration(seconds: 1), () {
+
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const BottomBar()), (route) => false);
+    });
+
   }
 }
 

@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shopeasy/screens/cart/widgets/cart_product_card.dart';
 import 'package:shopeasy/shop_provider/shop_provider.dart';
 import '../../constants.dart';
-import '../../global_widgets/bottomButton.dart';
+import '../../global_widgets/bottom_button.dart';
 import '../../global_widgets/bottom_appbar.dart';
 import '../checkout_screen/check_out_cart.dart';
 

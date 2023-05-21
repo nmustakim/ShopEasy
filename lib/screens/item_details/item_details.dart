@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:shopeasy/models/product.dart';
 import 'package:shopeasy/screens/checkout_screen/single_checkout.dart';
 import '../../constants.dart';
-import '../../global_widgets/bottomButton.dart';
+import '../../global_widgets/bottom_button.dart';
 import '../../shop_provider/shop_provider.dart';
 import '../cart/cart.dart';
 
@@ -209,7 +209,7 @@ class _ItemDetailsState extends State<ItemDetails> {
 
                                   }),
                             ),
-                            SizedBox(width: 20,),
+                            const SizedBox(width: 20,),
 
                             Expanded(
                               child: BottomButton(

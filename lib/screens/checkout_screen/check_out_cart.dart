@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shopeasy/global_widgets/bottomButton.dart';
+import 'package:shopeasy/global_widgets/bottom_button.dart';
 
 import '../../firebase_helpers/firestore_helper.dart';
 import '../../global_widgets/bottom_appbar.dart';

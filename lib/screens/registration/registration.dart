@@ -3,10 +3,10 @@ import 'package:shopeasy/constants.dart';
 import 'package:shopeasy/firebase_helpers/firebaseAuth_helper.dart';
 import 'package:shopeasy/global_widgets/bottom_appbar.dart';
 import 'package:shopeasy/screens/terms_privacy_policies/terms_privacy.dart';
-import '../../global_widgets/bottomButton.dart';
+import '../../global_widgets/bottom_button.dart';
 import '../login/login.dart';
-import 'parts/bottom_row.dart';
-import 'parts/reusable_part.dart';
+import 'widgets/bottom_row.dart';
+import 'widgets/reusable_part.dart';
 
 class Registration extends StatefulWidget {
   const Registration({Key? key}) : super(key: key);
@@ -158,7 +158,11 @@ bool isValidated = signUpVaildation(  nameController!.text,emailController!.text
 if(isValidated == true){
   bool isLoggedIn = await FirebaseAuthHelper.firebaseAuthHelper.signUp( nameController!.text,emailController!.text, ageController!.text,phoneController!.text,passwordController!.text,context);
   if(isLoggedIn == true){
-    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const BottomBar()), (route) => false);
+    Future.delayed(const Duration(seconds: 1), () {
+
+      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const BottomBar()), (route) => false);
+    });
+
   }
 }
                       }
