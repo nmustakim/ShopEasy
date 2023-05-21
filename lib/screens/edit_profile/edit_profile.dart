@@ -39,12 +39,12 @@ class _EditProfileState extends State<EditProfile> {
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
+        centerTitle: true,
+        foregroundColor:Colors.red,
         backgroundColor: Colors.white,
         title: const Text(
           "Profile",
-          style: TextStyle(
-            color: Colors.black,
-          ),
+
         ),
       ),
       body: ListView(

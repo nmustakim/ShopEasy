@@ -31,14 +31,12 @@ class _AccountDetailsState extends State<AccountDetails> {
 
     return Scaffold(
       appBar: AppBar(
+        centerTitle: true,
         elevation: 0,
-        backgroundColor: Colors.white,
+
+         foregroundColor: Colors.white,
         title: const Text(
-          "Account",
-          style: TextStyle(
-            color: Colors.black,
-          ),
-        ),
+          "Account"),
       ),
       body: Column(
         children: [

@@ -28,6 +28,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     return Scaffold(
         appBar: AppBar(
           elevation: 0,
+          foregroundColor:Colors.red,
           backgroundColor: Colors.white,
           centerTitle: true,
           title: const Text(

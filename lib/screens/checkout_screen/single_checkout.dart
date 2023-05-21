@@ -27,6 +27,7 @@ class _SingleCheckoutScreenState extends State<SingleCheckoutScreen> {
         appBar: AppBar(
           elevation: 0,
           backgroundColor: Colors.white,
+          foregroundColor:Colors.red,
           centerTitle: true,
           title: const Text(
             "SingleCheckoutScreen",

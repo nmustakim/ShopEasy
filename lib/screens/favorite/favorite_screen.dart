@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopeasy/screens/favorite/widgets/favorite_card.dart';
-import '../../constants.dart';
 import '../../global_widgets/bottom_button.dart';
 import '../../shop_provider/shop_provider.dart';
 import '../checkout_screen/check_out_cart.dart';
@@ -16,10 +15,9 @@ class FavoriteScreen extends StatelessWidget {
         child: Scaffold(
             appBar: AppBar(
                 centerTitle: true,
-                backgroundColor: Colors.white,
-                title: Text(
+              foregroundColor:Colors.white,
+                title: const Text(
                   "Favorites",
-                  style: titleTextStyle1,
                 ),
                 elevation: 0,
             ),

@@ -5,7 +5,6 @@ import 'package:shopeasy/screens/cart/widgets/cart_product_card.dart';
 import 'package:shopeasy/shop_provider/shop_provider.dart';
 import '../../constants.dart';
 import '../../global_widgets/bottom_button.dart';
-import '../../global_widgets/bottom_appbar.dart';
 import '../checkout_screen/check_out_cart.dart';
 
 
@@ -25,26 +24,14 @@ class _CartState extends State<Cart> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-              centerTitle: true,
-              backgroundColor: Colors.white,
-              title: Text(
-                "Cart",
-                style: titleTextStyle1,
-              ),
-              elevation: 0,
-              leading: IconButton(
-                icon: const Icon(
-                  Icons.arrow_circle_left,
-                  color: Colors.red,
-                  size: 40,
-                ),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const BottomBar()));
-                },
-              )),
+            centerTitle: true,
+            foregroundColor:Colors.white,
+            title: const Text(
+              "Favorites",
+            ),
+            elevation: 0,
+          ),
+
           body: Padding(
             padding: const EdgeInsets.fromLTRB(16, 16, 16, 64),
             child: Column(
