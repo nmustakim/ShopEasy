@@ -38,7 +38,7 @@ class BottomBarState extends State<BottomBar> {
         ),
     PersistentBottomNavBarItem(
       contentPadding: 0,
-      icon: const Icon(Icons.person_sharp,size: 35,),
+      icon: const Icon(Icons.person_outline_sharp,size: 35,),
       inactiveIcon: const Icon(Icons.person_sharp,size: 35,),
       title: "Profile",
       activeColorPrimary: Colors.black,
