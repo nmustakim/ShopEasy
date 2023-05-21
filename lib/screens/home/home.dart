@@ -147,8 +147,7 @@ class _HomeState extends State<Home> {
               const SizedBox(
                 height: 12.0,
               ),
-              !isSearched()
-                  ? const Padding(
+              const Padding(
                 padding: EdgeInsets.only(top: 12.0, left: 12.0),
                 child: Text(
                   "Popular Products",
@@ -158,7 +157,7 @@ class _HomeState extends State<Home> {
                   ),
                 ),
               )
-                  : SizedBox.fromSize(),
+                 ,
               const SizedBox(
                 height: 12.0,
               ),
