@@ -21,22 +21,34 @@ class BottomBarState extends State<BottomBar> {
 
   List<Widget> _buildScreens() => [
         const Home(),
+    const AccountDetails(),
         const Cart(),
         const OrderScreen(),
-        const AccountDetails(),
+
       ];
 
   List<PersistentBottomNavBarItem> _navBarsItems() => [
         PersistentBottomNavBarItem(
-          icon: const Icon(Icons.home),
-          inactiveIcon: const Icon(Icons.home_outlined),
+          contentPadding: 0,
+          icon: const Icon(Icons.home_outlined,size: 35,),
+          inactiveIcon: const Icon(Icons.home_filled,size: 35,),
           title: "Home",
           activeColorPrimary: Colors.black,
           inactiveColorPrimary: Colors.black,
         ),
+    PersistentBottomNavBarItem(
+      contentPadding: 0,
+      icon: const Icon(Icons.person_sharp,size: 35,),
+      inactiveIcon: const Icon(Icons.person_sharp,size: 35,),
+      title: "Profile",
+      activeColorPrimary: Colors.black,
+      inactiveColorPrimary: Colors.black,
+    ),
         PersistentBottomNavBarItem(
-          icon: const Icon(Icons.shopping_cart),
-          inactiveIcon: const Icon(Icons.shopping_cart_outlined),
+          contentPadding: 0,
+
+          icon: const Icon(Icons.shopping_cart_outlined,size: 35,),
+          inactiveIcon: const Icon(Icons.shopping_cart,size: 35,),
           title: "Cart",
           activeColorPrimary: Colors.black,
           inactiveColorPrimary: Colors.black,
@@ -48,13 +60,7 @@ class BottomBarState extends State<BottomBar> {
           activeColorPrimary: Colors.black,
           inactiveColorPrimary: Colors.black,
         ),
-        PersistentBottomNavBarItem(
-          icon: const Icon(Icons.person),
-          inactiveIcon: const Icon(Icons.person_outline),
-          title: "Profile",
-          activeColorPrimary: Colors.black,
-          inactiveColorPrimary: Colors.black,
-        ),
+
       ];
 
   @override
