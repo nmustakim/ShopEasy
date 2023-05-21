@@ -33,8 +33,6 @@ class _AccountDetailsState extends State<AccountDetails> {
       appBar: AppBar(
         centerTitle: true,
         elevation: 0,
-
-         foregroundColor: Colors.white,
         title: const Text(
           "Account"),
       ),

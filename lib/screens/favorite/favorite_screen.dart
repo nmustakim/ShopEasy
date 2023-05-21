@@ -15,7 +15,7 @@ class FavoriteScreen extends StatelessWidget {
         child: Scaffold(
             appBar: AppBar(
                 centerTitle: true,
-              foregroundColor:Colors.white,
+              foregroundColor:Colors.black,
                 title: const Text(
                   "Favorites",
                 ),

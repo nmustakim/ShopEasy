@@ -3,22 +3,24 @@ import 'package:shopeasy/firebase_helpers/firestore_helper.dart';
 
 import '../../models/order.dart';
 
-class OrderScreen extends StatelessWidget {
+class OrderScreen extends StatefulWidget {
   const OrderScreen({super.key});
 
+  @override
+  State<OrderScreen> createState() => _OrderScreenState();
+}
+
+class _OrderScreenState extends State<OrderScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        foregroundColor:Colors.red,
+        foregroundColor:Colors.black,
         elevation: 0,
-        backgroundColor: Colors.white,
         centerTitle: true,
         title: const Text(
           "Your Orders",
-          style: TextStyle(
-            color: Colors.black,
-          ),
+
         ),
       ),
       body: StreamBuilder(

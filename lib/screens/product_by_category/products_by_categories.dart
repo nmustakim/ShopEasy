@@ -17,6 +17,16 @@ class _ProductByCategoryState extends State<ProductByCategory> {
 
   List<ProductModel> productsByCategories = [];
   bool isLoading = false;
+  TextEditingController searchController = TextEditingController();
+  List<ProductModel> searchList = [];
+  void runFilter(String value) {
+    setState(() {
+      searchList = productsByCategories
+          .where((element) =>
+          element.name.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    });
+  }
 
   @override
   void initState() {
@@ -56,8 +66,8 @@ class _ProductByCategoryState extends State<ProductByCategory> {
                     height: 40,
                     child: TextField(
                       textAlign: TextAlign.center,
-                      // onChanged: (v) => runFilter(v),
-                      // controller: searchController,
+                      onChanged: (v) => runFilter(v),
+                      controller: searchController,
                       decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white30,
@@ -78,9 +88,52 @@ class _ProductByCategoryState extends State<ProductByCategory> {
                   const SizedBox(height: 10,),
 
                   const SizedBox(height: 15,),
-                  productsByCategories.isEmpty ? const Center(child: Text("Popular products list is empty"),) : Expanded(
+                  searchList.isEmpty && searchController.text.isNotEmpty ? const Center(child: Text("No Products Found"),):
+                      searchList.isNotEmpty?
+                   Expanded(
                     child: GridView.builder(
-                        itemCount: productsByCategories.length,
+                        itemCount: searchList.length,
+                        gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2),
+                        itemBuilder: (context, index) {
+                          ProductModel product = searchList[index];
+                          return Card(
+                            elevation: 5,
+                            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+
+                            child: Container(color:Colors.white54,child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Center(child: Image.network(product.image,height: 70,)),
+                                const SizedBox(height: 8,),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                  children: [
+
+                                    Text(product.name),   Text("${product.price}\$"),
+                                  ],),
+                                const SizedBox(height: 8,),
+
+
+
+                                SizedBox(height:20,child: OutlinedButton(onPressed: (){
+                                  Navigator.push(context, MaterialPageRoute(builder: (context)=>ItemDetails(product: product)));
+                                }, child: const Text('Buy')))
+
+
+
+
+
+                              ],),),
+                          );
+
+
+                        }),
+                  ):productsByCategories.isEmpty ? const Center(child: Text("Popular products list is empty"),) :
+                  Expanded(
+                    child: GridView.builder(
+                        itemCount:productsByCategories.length,
                         gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2),

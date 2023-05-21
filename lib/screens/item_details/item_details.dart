@@ -27,8 +27,7 @@ class _ItemDetailsState extends State<ItemDetails> {
     return SafeArea(
       child: Scaffold(
           appBar: AppBar(
-            backgroundColor: Colors.white,
-            foregroundColor: Colors.red,
+           title: const Text("Item Details"),
             elevation: 0,
             actions: [
               IconButton(
