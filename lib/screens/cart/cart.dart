@@ -27,7 +27,7 @@ class _CartState extends State<Cart> {
             centerTitle: true,
             foregroundColor:Colors.white,
             title: const Text(
-              "Favorites",
+              "Cart",
             ),
             elevation: 0,
           ),

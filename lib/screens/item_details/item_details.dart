@@ -180,55 +180,60 @@ class _ItemDetailsState extends State<ItemDetails> {
                           "Details",
                           style: titleTextStyle3,
                         ),
-                        Text(
-                            "The ${widget.product.name} are consumed in diverse ways: raw or cooked, and in many dishes, sauces, salads, and drinks.vegetable ingredient or side dish.",
-                            style: bodyTextStyle3),
                         const SizedBox(
                           height: 20,
                         ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Expanded(
-                              child: BottomButton(
-                                  buttonName: "Add to cart",
-                                  onPressed: () {
+                        Text(
+                            "The ${widget.product.name} are consumed in diverse ways: raw or cooked, and in many dishes, sauces, salads, and drinks.vegetable ingredient or side dish.",
+                            style: bodyTextStyle2),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Expanded(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Expanded(
+                                child: BottomButton(
+                                    buttonName: "Add to cart",
+                                    onPressed: () {
 
-                                     if(quantity == 0){
-                                      Fluttertoast.showToast(msg: "Choose quantity");
-                                    }
-                                    else {
+                                       if(quantity == 0){
+                                        Fluttertoast.showToast(msg: "Choose quantity");
+                                      }
+                                      else {
 
-                                      ProductModel pm = widget.product
-                                          .copyWith(quantity: quantity);
-                                      shopProvider.addProduct(pm);
-
-
-                                    }
-
-                                  }),
-                            ),
-                            const SizedBox(width: 20,),
-
-                            Expanded(
-                              child: BottomButton(
-                                  buttonName: "Buy",
-                                  onPressed: () {
-
-                                    if(quantity == 0){
-                                      Fluttertoast.showToast(msg: "Choose quantity");
-                                    }
-                                    else {
-                                      ProductModel pm = widget.product
-                                          .copyWith(quantity: quantity);
-                                      Navigator.push(context, MaterialPageRoute(builder: (context)=>SingleCheckoutScreen(productModel: pm)));
+                                        ProductModel pm = widget.product
+                                            .copyWith(quantity: quantity);
+                                        shopProvider.addProduct(pm);
 
 
-                                    }
+                                      }
 
-                                  }),
-                            ),
-                          ],
+                                    }),
+                              ),
+                              const SizedBox(width: 20,),
+
+                              Expanded(
+                                child: BottomButton(
+                                    buttonName: "Buy",
+                                    onPressed: () {
+
+                                      if(quantity == 0){
+                                        Fluttertoast.showToast(msg: "Choose quantity");
+                                      }
+                                      else {
+                                        ProductModel pm = widget.product
+                                            .copyWith(quantity: quantity);
+                                        Navigator.push(context, MaterialPageRoute(builder: (context)=>SingleCheckoutScreen(productModel: pm)));
+
+
+                                      }
+
+                                    }),
+                              ),
+                            ],
+                          ),
                         )
                       ],
                     ),
