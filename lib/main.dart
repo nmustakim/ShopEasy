@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopeasy/firebase_helpers/firebaseAuth_helper.dart';
-import 'package:shopeasy/screens/home/home.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:shopeasy/screens/welcome/welcome.dart';
+import 'package:shopeasy/screens/splash_screen/splash_screen.dart';
 import 'package:shopeasy/shop_provider/shop_provider.dart';
 import 'firebase_options.dart';
 import 'global_widgets/bottom_appbar.dart';
@@ -38,10 +37,10 @@ fontFamily: ('NovaRound'),
         stream: FirebaseAuthHelper.firebaseAuthHelper.getAuthChange,
         builder: (context,snapshot){
           if(snapshot.hasData){
-            return BottomBar();
+            return const BottomBar();
           }
           else{
-            return Welcome();
+            return SplashScreen();
           }
         },
 
