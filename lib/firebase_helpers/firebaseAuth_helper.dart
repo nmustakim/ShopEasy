@@ -16,11 +16,14 @@ class FirebaseAuthHelper {
 
   Future<bool> login(String email, String password, BuildContext context) async {
     try {
+      _showLoaderDialog(context);
       await _firebaseAuth.signInWithEmailAndPassword(
         email: email,
         password: password,
       );
+      Navigator.of(context, rootNavigator: true).pop();
       return true;
+
     } on FirebaseAuthException catch (error) {
       _handleError(context, error);
       return false;
