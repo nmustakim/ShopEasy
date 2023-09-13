@@ -1,13 +1,10 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:shopeasy/constants.dart';
-import 'package:shopeasy/firebase_helpers/firebaseAuth_helper.dart';
 import 'package:shopeasy/global_widgets/bottom_appbar.dart';
 import 'package:shopeasy/screens/forgot_password/forgot_password.dart';
-import '../../constants.dart';
-import '../../firebase_helpers/firebaseAuth_helper.dart';
 import '../../global_widgets/bottom_button.dart';
-import '../../global_widgets/bottom_appbar.dart';
+import '../../utils/login_utils.dart';
 import '../registration/registration.dart';
 import '../registration/widgets/bottom_row.dart';
 import '../registration/widgets/reusable_part.dart';
@@ -32,40 +29,15 @@ class _LoginState extends State<Login> {
     super.dispose();
   }
 
-  Widget buildPasswordField() {
-    return SizedBox(
-      height: 50,
-      child: TextField(
-        obscureText: isObscure,
-        controller: passwordController,
-        decoration: InputDecoration(
-          hintText: "Password",
-          suffixIcon: InkWell(
-            onTap: () {
-              setState(() {
-                isObscure = !isObscure;
-              });
-            },
-            child: const Icon(Icons.remove_red_eye_sharp),
-          ),
-          filled: true,
-          fillColor: Colors.white,
-          border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
-      ),
-    );
-  }
-
   Future<void> signIn() async {
     final String email = emailController.text;
     final String password = passwordController.text;
 
-    if (_validateInput(email, password)) {
+    if (validateInput(email, password, context)) {
       try {
         showLoaderDialog(context);
-        final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+        final credential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
           email: email,
           password: password,
         );
@@ -107,8 +79,6 @@ class _LoginState extends State<Login> {
       }
     }
   }
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -177,6 +147,32 @@ class _LoginState extends State<Login> {
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildPasswordField() {
+    return SizedBox(
+      height: 50,
+      child: TextField(
+        obscureText: isObscure,
+        controller: passwordController,
+        decoration: InputDecoration(
+          hintText: "Password",
+          suffixIcon: InkWell(
+            onTap: () {
+              setState(() {
+                isObscure = !isObscure;
+              });
+            },
+            child: const Icon(Icons.remove_red_eye_sharp),
+          ),
+          filled: true,
+          fillColor: Colors.white,
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(12),
+          ),
         ),
       ),
     );

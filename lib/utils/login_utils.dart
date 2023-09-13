@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-bool _validateInput(String email, String password,context) {
+bool validateInput(String email, String password,context) {
 
   if (email.isEmpty || password.isEmpty) {
     ScaffoldMessenger.of(context).showSnackBar(
