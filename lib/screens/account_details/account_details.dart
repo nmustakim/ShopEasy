@@ -2,12 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopeasy/screens/edit_profile/edit_profile.dart';
 import 'package:shopeasy/screens/favorite/favorite_screen.dart';
-
 import '../../firebase_helpers/firebaseAuth_helper.dart';
 import '../../global_widgets/bottom_button.dart';
 import '../../shop_provider/shop_provider.dart';
 import '../change_password/change_password.dart';
-import '../login/login.dart';
 import '../order_screen/order_screen.dart';
 
 class AccountDetails extends StatefulWidget {

@@ -24,31 +24,55 @@ class Welcome extends StatelessWidget {
               children: [
                 SizedBox(
                   width: 300,
-                  child: BottomButton(
-                    buttonName: 'Login',
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Login(),
+                  child: Column(
+                    children: [
+                      const Text(
+                        'Welcome to ShopEasy',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
                         ),
-                      );
-                    },
+                      ),
+                      const SizedBox(height: 16), // Add spacing between title and button
+                      BottomButton(
+                        buttonName: 'Login',
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Login(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
                 const SizedBox(height: 25),
                 SizedBox(
                   width: 300,
-                  child: BottomButton(
-                    buttonName: 'SignUp',
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const Registration(),
+                  child: Column(
+                    children: [
+                      const Text(
+                        'New User? Sign Up',
+                        style: TextStyle(
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
                         ),
-                      );
-                    },
+                      ),
+                      const SizedBox(height: 16), // Add spacing between title and button
+                      BottomButton(
+                        buttonName: 'SignUp',
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const Registration(),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ],
