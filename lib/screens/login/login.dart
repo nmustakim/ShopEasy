@@ -27,115 +27,133 @@ class _LoginState extends State<Login> {
     passwordController = TextEditingController();
     super.initState();
   }
-  signIn()async{
-    try {
-      final credential = await FirebaseAuth.instance
-          .signInWithEmailAndPassword(
-          email: emailController!.text,
-          password: passwordController!.text);
-      var authCredential = credential.user;
-      if(authCredential!.uid.isNotEmpty){
-        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=>const BottomBar()));
-      }
 
+  signIn() async {
+    try {
+      final credential = await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController!.text, password: passwordController!.text);
+      var authCredential = credential.user;
+      if (authCredential!.uid.isNotEmpty) {
+        Navigator.pushReplacement(context,
+            MaterialPageRoute(builder: (context) => const BottomBar()));
+      }
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Text("User not found"),
-          action: SnackBarAction(label: 'Cancel', onPressed: (){
-            Navigator.pop(context);
-          }),),
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text("User not found"),
+            action: SnackBarAction(
+                label: 'Cancel',
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
+          ),
         );
-
-      }
-      else if (e.code == 'wrong-password') {
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          content: const Text("Wrong password!"),
-          action: SnackBarAction(label: 'Cancel', onPressed: (){
-            Navigator.pop(context);
-          }),),
+      } else if (e.code == 'wrong-password') {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: const Text("Wrong password!"),
+            action: SnackBarAction(
+                label: 'Cancel',
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
+          ),
         );
-
       }
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
     return ReusableBodyPart(
-         topMargin: 120,
+        topMargin: 120,
         childWidget: Padding(
           padding: const EdgeInsets.all(8),
           child: Column(
-
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-
-              Text("Sign In", style:   titleTextStyle1),
-              const SizedBox(height: 8,),
-              Text("Welcome back to explore the pure & fresh groceries of ShopEasy", style:   bodyTextStyle2),
+              Text("Sign In", style: titleTextStyle1),
+              const SizedBox(
+                height: 8,
+              ),
+              Text(
+                  "Welcome back to explore the pure & fresh groceries of ShopEasy",
+                  style: bodyTextStyle2),
               const SizedBox(
                 height: 12,
               ),
-
-              SizedBox(height: 50,
+              SizedBox(
+                  height: 50,
                   child: TextField(
                       controller: emailController,
                       decoration: InputDecoration(
-
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12)
-                          ))
-                  )),
-              const SizedBox(height: 8,),
-
-
-              SizedBox(height: 50,
+                              borderRadius: BorderRadius.circular(12))))),
+              const SizedBox(
+                height: 8,
+              ),
+              SizedBox(
+                  height: 50,
                   child: TextField(
-
                       obscureText: isObscure,
                       controller: passwordController,
                       decoration: InputDecoration(
-                        suffixIcon: InkWell(onTap:(){setState(() {
-                          isObscure = !isObscure;
-                        });},child: const Icon(Icons.remove_red_eye_sharp)),
+                          suffixIcon: InkWell(
+                              onTap: () {
+                                setState(() {
+                                  isObscure = !isObscure;
+                                });
+                              },
+                              child: const Icon(Icons.remove_red_eye_sharp)),
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12)
-                          ))
-                  )),
+                              borderRadius: BorderRadius.circular(12))))),
               const SizedBox(
                 height: 20,
               ),
-        Row(
-          children: [
-            Expanded(
-              child: BottomButton(buttonName: 'Log in', onPressed: ()async{
-bool isValidated = loginVaildation(emailController!.text, passwordController!.text);
-if(isValidated == true){
-  bool isLoggedIn = await FirebaseAuthHelper.firebaseAuthHelper.login(emailController!.text, passwordController!.text, context);
-  if(isLoggedIn == true){
-    Future.delayed(const Duration(seconds: 1), () {
-
-      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context)=>const BottomBar()), (route) => false);
-    });
-
-  }
-}
-
-
-
-              }
+              Row(
+                children: [
+                  Expanded(
+                    child: BottomButton(
+                        buttonName: 'Log in',
+                        onPressed: () async {
+                          bool isValidated = loginVaildation(
+                              emailController!.text, passwordController!.text);
+                          if (isValidated == true) {
+                            bool isLoggedIn = await FirebaseAuthHelper
+                                .firebaseAuthHelper
+                                .login(emailController!.text,
+                                    passwordController!.text, context);
+                            if (isLoggedIn == true) {
+                              Future.delayed(const Duration(seconds: 1), () {
+                                Navigator.pushAndRemoveUntil(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const BottomBar()),
+                                    (route) => false);
+                              });
+                            }
+                          }
+                        }),
+                  ),
+                ],
               ),
-            ),
-          ],
-        ),
-
-         TextButton(onPressed: (){Navigator.push(context, MaterialPageRoute(builder: (context)=>const ForgotPassword()));}, child: Text("Forgot password?",style:   bodyTextStyle1.copyWith(color: Colors.red),)),
+              TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const ForgotPassword()));
+                  },
+                  child: Text(
+                    "Forgot password?",
+                    style: bodyTextStyle1.copyWith(color: Colors.red),
+                  )),
               Padding(
                 padding: const EdgeInsets.only(top: 25),
                 child: BottomRow(
