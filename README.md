@@ -1,4 +1,4 @@
-# Simple Ecommerce App with Firebase
+# ShopEasy--A simple Ecommerce App with Firebase
 
 This is a simple ecommerce app that allows users to order products, add and remove items from their cart, and view product details including descriptions. The app is built using Firebase as the backend to handle authentication, storage, and real-time database functionality.
 
