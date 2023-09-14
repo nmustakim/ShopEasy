@@ -21,4 +21,9 @@ This is a simple ecommerce app that allows users to order products, add and remo
 - Provider: Prvider is used for managing state.
 - Flutter: The frontend of the app is built using the Flutter framework.
 
+# Video Clips;
+
+
+
+https://github.com/nmustakim/ShopEasy/assets/98794936/69994145-c5b6-4ea8-b841-301f78782c89
 
