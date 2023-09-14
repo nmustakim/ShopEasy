@@ -1,4 +1,11 @@
-# ShopEasy--A simple Ecommerce App with Firebase
+# ShopEasy--A simple Ecommerce App with Firebase and Provider
+
+
+
+# Video Clips:
+
+
+https://github.com/nmustakim/ShopEasy/assets/98794936/69994145-c5b6-4ea8-b841-301f78782c89
 
 This is a simple ecommerce app that allows users to order products, add and remove items from their cart, and view product details including descriptions. The app is built using Firebase as the backend to handle authentication, storage, and real-time database functionality.
 
@@ -21,9 +28,5 @@ This is a simple ecommerce app that allows users to order products, add and remo
 - Provider: Prvider is used for managing state.
 - Flutter: The frontend of the app is built using the Flutter framework.
 
-# Video Clips;
 
-
-
-https://github.com/nmustakim/ShopEasy/assets/98794936/69994145-c5b6-4ea8-b841-301f78782c89
 
