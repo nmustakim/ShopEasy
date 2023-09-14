@@ -6,6 +6,7 @@ import '../../firebase_helpers/firebaseAuth_helper.dart';
 import '../../global_widgets/bottom_button.dart';
 import '../../shop_provider/shop_provider.dart';
 import '../change_password/change_password.dart';
+import '../login/login.dart';
 import '../order_screen/order_screen.dart';
 
 class AccountDetails extends StatefulWidget {
@@ -16,10 +17,7 @@ class AccountDetails extends StatefulWidget {
 }
 
 class _AccountDetailsState extends State<AccountDetails> {
-  @override
-  void initState() {
-    super.initState();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -112,8 +110,11 @@ class _AccountDetailsState extends State<AccountDetails> {
                 ListTile(
                   onTap: () {
                     FirebaseAuthHelper.firebaseAuthHelper.signOut(context);
-
-                    setState(() {});
+                    Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => const Login()),
+                          (route) => false,
+                    );
                   },
                   leading: const Icon(Icons.exit_to_app),
                   title: const Text("Log out"),

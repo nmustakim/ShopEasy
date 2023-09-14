@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shopeasy/firebase_helpers/firestore_helper.dart';
 
+import '../../constants.dart';
 import '../../models/categories.dart';
 import '../../models/product.dart';
 import '../../shop_provider/shop_provider.dart';
@@ -21,6 +22,8 @@ class _HomeState extends State<Home> {
   List<ProductModel> popularProductsList = [];
   List<ProductModel> searchList = [];
 
+  bool isLoading = true;
+
   @override
   void initState() {
     super.initState();
@@ -30,15 +33,37 @@ class _HomeState extends State<Home> {
   }
 
   Future<void> _getCategoryAndProducts() async {
-    final categories = await FireStoreHelper.fireStoreHelper.getCategories();
-    final popularProducts = await FireStoreHelper.fireStoreHelper.getPopular();
+    try {
+      final categories =
+      await FireStoreHelper.fireStoreHelper.getCategories();
+      final popularProducts =
+      await FireStoreHelper.fireStoreHelper.getPopular();
 
-    if (mounted) {
-      setState(() {
-        categoriesList = categories;
-        popularProductsList = popularProducts;
-      });
+      if (mounted) {
+        setState(() {
+          categoriesList = categories;
+          popularProductsList = popularProducts;
+          isLoading = false;
+        });
+      }
+    } catch (error) {
+
+      print('Error fetching data: $error');
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
+  }
+
+  void runFilter(String value) {
+    setState(() {
+      searchList = popularProductsList
+          .where((element) =>
+          element.name.toLowerCase().contains(value.toLowerCase()))
+          .toList();
+    });
   }
 
   @override
@@ -46,30 +71,21 @@ class _HomeState extends State<Home> {
     return SafeArea(
       child: Scaffold(
         appBar: AppBar(
-          title: const Text('ShopEasy'),
+          toolbarHeight: 100,
+         title:  Text('Products',style: titleTextStyle1.copyWith(color: Colors.black),),
+      elevation: 0,
           actions: [
-            IconButton(
-              icon: const Icon(Icons.sort),
-              onPressed: () {},
-            ),
+           Image.asset('assets/images/logos_black.png',),
+            const SizedBox(width:20)
+
           ],
+
         ),
-        body: FutureBuilder(
-          future: _getCategoryAndProducts(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
-            } else if (snapshot.hasError) {
-              return Center(
-                child: Text('Error: ${snapshot.error}'),
-              );
-            } else {
-              return _buildHomeContent();
-            }
-          },
-        ),
+        body: isLoading
+            ? const Center(
+          child: CircularProgressIndicator(),
+        )
+            : _buildHomeContent(),
       ),
     );
   }
@@ -101,7 +117,7 @@ class _HomeState extends State<Home> {
         ),
         const SizedBox(height: 24.0),
         const Text(
-          "Categories",
+          "  Categories",
           style: TextStyle(
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
@@ -131,42 +147,45 @@ class _HomeState extends State<Home> {
     )
         : SingleChildScrollView(
       scrollDirection: Axis.horizontal,
-      child: Row(
-        children: categoriesList
-            .map(
-              (item) => Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: SizedBox(
-              height: 100,
-              width: 100,
-              child: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          ProductByCategory(categoryModel: item),
-                    ),
-                  );
-                },
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.network(
-                      item.image,
-                      height: 50,
-                      width: 100,
-                    ),
-                    Text(item.name),
-                  ],
+      child: Container(
+        margin: const EdgeInsets.only(left: 8),
+        child: Row(
+          children: categoriesList
+              .map(
+                (item) => Card(
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: SizedBox(
+                height: 100,
+                width: 100,
+                child: InkWell(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) =>
+                            ProductByCategory(categoryModel: item),
+                      ),
+                    );
+                  },
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.network(
+                        item.image,
+                        height: 50,
+                        width: 100,
+                      ),
+                      Text(item.name),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-        )
-            .toList(),
+          )
+              .toList(),
+        ),
       ),
     );
   }
@@ -259,14 +278,5 @@ class _HomeState extends State<Home> {
         ),
       ),
     );
-  }
-
-  void runFilter(String value) {
-    setState(() {
-      searchList = popularProductsList
-          .where((element) =>
-          element.name.toLowerCase().contains(value.toLowerCase()))
-          .toList();
-    });
   }
 }

@@ -35,11 +35,7 @@ class FirebaseAuthHelper {
       _showLoaderDialog(context);
       await _firebaseAuth.signOut();
       Navigator.of(context, rootNavigator: true).pop();
-      Navigator.pushAndRemoveUntil(
-        context,
-        MaterialPageRoute(builder: (context) => const Login()),
-            (route) => false,
-      );
+
     } on FirebaseAuthException catch (error) {
       _handleError(context, error);
     }
